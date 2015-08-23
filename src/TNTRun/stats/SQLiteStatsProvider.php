@@ -14,22 +14,21 @@ class SQLiteStatsProvider{
     }
 
     public function register($playerName){
-        $this->db->query("INSERT INTO players (name, matches, wins) VALUES ('".$this->db->escapeString(trim(strtolower($playerName)))."', 0, 0)");
+        $this->db->exec("INSERT INTO players (name, matches, wins) VALUES ('".$this->db->escapeString(trim(strtolower($playerName)))."', 0, 0)");
     }
 
     public function addMatch($playerName){
-        $this->db->query("UPDATE players SET matches = matches + 1 WHERE name = '".$this->db->escapeString(trim(strtolower($playerName)))."'");
+        $this->db->exec("UPDATE players SET matches = matches + 1 WHERE name = '".$this->db->escapeString(trim(strtolower($playerName)))."'");
     }
 
     public function addWin($playerName){
-        $this->db->query("UPDATE players SET wins = wins + 1 WHERE name = '".$this->db->escapeString(trim(strtolower($playerName)))."'");
+        $this->db->exec("UPDATE players SET wins = wins + 1 WHERE name = '".$this->db->escapeString(trim(strtolower($playerName)))."'");
     }
 
     public function getStats($playerName){
         $result = $this->db->query("SELECT * FROM players WHERE name = '".$this->db->escapeString(trim(strtolower($playerName)))."'");
-        if($result instanceof \mysqli_result){
-            $assoc = $result->fetch_assoc();
-            $result->free();
+        if($result instanceof \SQLiteResult){
+            $assoc = $result->fetch(SQLITE_ASSOC);
             if(isset($assoc["name"]) and $assoc["name"] === $this->db->escapeString(trim(strtolower($playerName)))){
                 return $assoc;
             }
