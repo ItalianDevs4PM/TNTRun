@@ -1,3 +1,4 @@
+---
 #Config For TnTRun By ITADevs4PM
 #Here put the name of the block
 block: TNT
@@ -5,3 +6,4 @@ block: TNT
 money-for-won: 10
 #Lobby level name
 lobby: "world"
+...
