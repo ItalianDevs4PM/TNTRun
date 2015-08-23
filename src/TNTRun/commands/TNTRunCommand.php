@@ -35,7 +35,7 @@ class TNTRunCommand extends Command implements PluginIdentifiableCommand{
         if(isset($this->subCommands[strtolower($sub)])){
             return $this->subCommands[strtolower($sub)]->execute($sender, $args);
         }
-        $sender->sendMessage("Strange argument ".$sub.". Please use /tr help");
+        $sender->sendMessage("Strange argument ".$sub.". Please use /tr info");
         return true;
     }
 
