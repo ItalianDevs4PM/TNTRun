@@ -5,15 +5,12 @@ namespace TNTRun;
 use pocketmine\utils\TextFormat;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
-use pocketmine\level\Level;
-use pocketmine\Player;
 use TNTRun\commands\TNTRunCommand;
 use TNTRun\stats\MySQLStatsProvider;
 use TNTRun\stats\SQLiteStatsProvider;
 
 class Main extends PluginBase implements Listener{
-
-    /**@var \TNTRun\stats\StatsProvider*/
+    /** @var \TNTRun\stats\StatsProvider */
     private $stats;
 
     public function onEnable(){
