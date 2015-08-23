@@ -6,6 +6,7 @@ use pocketmine\block\Block;
 use pocketmine\math\Vector3;
 use pocketmine\Player;
 use TNTRun\Main;
+//use pocketmine\event\player\PlayerMoveEvent;
 
 class Arena{
 
@@ -57,9 +58,20 @@ class Arena{
 /*
 public function onPlayerInteract(PlayerInteract $e){
     $player = $e->getPlayer();
-    $block = $e->getBlock()->getId();
+    $id = $e->getBlock()->getId();
     if($player->hasPermission("tntrun.signjoin") or $player->hasPermission("tntrun.*")){
-        if($block == 63 or $block == 68){
+        if($id == 63 or $block == 68){
         }
     }
 }*/
+
+/*
+public function OnMove(PlayerMoveEvent $e){
+$id = $e->getBlock()->getId();
+$blocktoair = $e->getBlock();
+$blockname = $this->getConfig()->get("block");
+$block =  $event->getPlayer()->getLevel()->getBlock($event->getPlayer()->floor();
+if($id == $block){
+}
+}
+*/
