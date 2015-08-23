@@ -16,6 +16,7 @@ class Main extends PluginBase implements Listener{
         $this->getLogger()->info(TextFormat::GREEN . "TNTRun Enabled!");
         $this->saveDefaultConfig();
         $this->getServer()->getCommandMap()->register("tntrun", new TNTRunCommand($this));
+        $this->statistics = new Config($this->getDataFolder()."statistics.yml", Config::YAML);
     }
 
     public function onLoad(){
