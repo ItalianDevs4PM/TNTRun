@@ -1,1 +1,5 @@
-
+#Config For TnTRun By ITADevs4PM
+#Here put the name of the block
+block: TNT
+#Here put the points for won
+money-for-won: 10
