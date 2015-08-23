@@ -15,7 +15,6 @@ class TNTRunCommand extends Command implements PluginIdentifiableCommand{
     public $subCommands = [];
 
     public function __construct(Main $tntRun){
-
         parent::__construct("tntrun", "TNTRun main command", "/tntrun cmds", ["tr"]);
         $this->tntRun = $tntRun;
         $this->setPermission("tntrun.command");

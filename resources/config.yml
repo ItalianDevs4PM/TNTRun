@@ -3,3 +3,5 @@
 block: TNT
 #Here put the points for won
 money-for-won: 10
+#Lobby level name
+lobby: "world"
