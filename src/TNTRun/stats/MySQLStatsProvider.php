@@ -18,19 +18,19 @@ class MySQLStatsProvider implements StatsProvider{
     }
 
     public function register($playerName){
-        $this->db->query("INSERT INTO players (name, matches, wins) VALUES ('".$this->db->escape_string(trim(strtolower($playerName)))."', 0, 0)");
+        $this->db->query("INSERT INTO tntstats (name, matches, wins) VALUES ('".$this->db->escape_string(trim(strtolower($playerName)))."', 0, 0)");
     }
 
     public function addMatch($playerName){
-        $this->db->query("UPDATE players SET matches = matches + 1 WHERE name = '".$this->db->escape_string(trim(strtolower($playerName)))."'");
+        $this->db->query("UPDATE tntstats SET matches = matches + 1 WHERE name = '".$this->db->escape_string(trim(strtolower($playerName)))."'");
     }
 
     public function addWin($playerName){
-        $this->db->query("UPDATE players SET wins = wins + 1 WHERE name = '".$this->db->escape_string(trim(strtolower($playerName)))."'");
+        $this->db->query("UPDATE tntstats SET wins = wins + 1 WHERE name = '".$this->db->escape_string(trim(strtolower($playerName)))."'");
     }
 
     public function getStats($playerName){
-        $result = $this->db->query("SELECT * FROM players WHERE name = '".$this->db->escape_string(trim(strtolower($playerName)))."'");
+        $result = $this->db->query("SELECT * FROM tntstats WHERE name = '".$this->db->escape_string(trim(strtolower($playerName)))."'");
         if($result instanceof \mysqli_result){
             $assoc = $result->fetch_assoc();
             $result->free();
