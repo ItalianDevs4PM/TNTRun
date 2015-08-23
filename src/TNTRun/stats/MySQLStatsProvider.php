@@ -5,20 +5,29 @@ namespace TNTRun\stats;
 use TNTRun\Main;
 
 class MySQLStatsProvider implements StatsProvider{
-
+    /** @var Main */
+    private $tntRun;
+    /** @var mysqli */
+    private $db;
+    
     public function __construct(Main $tntRun){
         $this->tntRun = $tntRun;
         $settings = $this->tntRun->getConfig()->get("mysql-settings");
-        $this->db = new \mysqli($settings["host"], $settings["username"], $settings["password"], $settings["database"], $settings["port"]);
+        $this->db = new \mysqli($settings["host"], $settings["username"], $settings["password"], $settings["database"], isset($settings["port"]) ? $settings["port"] : 3306);
+        
         if($this->db->connect_error){
-            //todo
+            $tntRun->getLogger()->critical("Couldn't connect to MySQL: ". $this->db->connect_error);
+            $tntRun->getServer()->shutdown();
             return;
         }
         $this->db->query("CREATE TABLE IF NOT EXISTS tntstats (name VARCHAR(16) PRIMARY KEY, matches INT, wins INT)");
+        
+        $tntRun->getServer()->getScheduler()->scheduleRepeatingTask(new TaskPingMySQL($tntRun), 600);
     }
 
     public function register($playerName){
-        $this->db->query("INSERT INTO tntstats (name, matches, wins) VALUES ('".$this->db->escape_string(trim(strtolower($playerName)))."', 0, 0)");
+        if(is_null($this->getStats($playerName)))
+            $this->db->query("INSERT INTO tntstats (name, matches, wins) VALUES ('".$this->db->escape_string(trim(strtolower($playerName)))."', 0, 0)");
     }
 
     public function addMatch($playerName){
@@ -30,11 +39,12 @@ class MySQLStatsProvider implements StatsProvider{
     }
 
     public function getStats($playerName){
-        $result = $this->db->query("SELECT * FROM tntstats WHERE name = '".$this->db->escape_string(trim(strtolower($playerName)))."'");
+        $playerName = trim(strtolower($playerName));
+        $result = $this->db->query("SELECT * FROM tntstats WHERE name = '".$this->db->escape_string($playerName)."'");
         if($result instanceof \mysqli_result){
             $assoc = $result->fetch_assoc();
             $result->free();
-            if(isset($assoc["name"]) and $assoc["name"] === $this->db->escape_string(trim(strtolower($playerName)))){
+            if(isset($assoc["name"]) and $assoc["name"] === $this->db->escape_string($playerName)){
                 return $assoc;
             }
         }
@@ -44,5 +54,4 @@ class MySQLStatsProvider implements StatsProvider{
     public function close(){
         $this->db->close();
     }
-
 }

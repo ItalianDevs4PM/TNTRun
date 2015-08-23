@@ -14,7 +14,7 @@ use TNTRun\stats\SQLiteStatsProvider;
 class Main extends PluginBase implements Listener{
 
     /**@var \TNTRun\stats\StatsProvider*/
-    public $stats;
+    private $stats;
 
     public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
@@ -32,6 +32,13 @@ class Main extends PluginBase implements Listener{
                 $this->stats = new SQLiteStatsProvider($this);
                 break;
         }
+    }
+    
+    /**
+     * @return StatsProvider
+     */
+    public function getStats(){
+        return $this->stats;
     }
 
     public function onLoad(){
