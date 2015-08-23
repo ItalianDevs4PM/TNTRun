@@ -22,7 +22,7 @@ class Command extends Command implements PluginIdentifiableCommand{
         
         switch(strtolower($args[0])){
             case "help":
-                $sender->sendMessage(TextFormat::GREEN . "----Help For TnTRun----");
+                $sender->sendMessage(TextFormat::GREEN . "-=-=-Help For TnTRun-=-=-");
                 $sender->sendMessage(TextFormat::GREEN . "/tr help for help");
                 $sender->sendMessage(TextFormat::GREEN . "/tr stats for statistics");
                 $sender->sendMessage(TextFormat::GREEN . "/tr leave for exit the match");
@@ -31,10 +31,10 @@ class Command extends Command implements PluginIdentifiableCommand{
 
             case "about":
                 $block = $this->getConfig()->get("block");
-                $sender->sendMessage(TextFormat::GREEN . "----TnTRun About----");
+                $sender->sendMessage(TextFormat::GREEN . "-=-=-TnTRun About-=-=-");
                 $sender->sendMessage(TextFormat::GREEN . "For play click the sign");
                 $sender->sendMessage(TextFormat::GREEN . "Run on the ".$block);
-                $sender->sendMessage(TextFormat::GREEN . "Maked BY ItaDevs4PM");
+                $sender->sendMessage(TextFormat::GREEN . "Maked By ItalianDevs4PM");
             return;
         }
         $sender->sendMessage(TextFormat::RED . "Comando non esiste");
