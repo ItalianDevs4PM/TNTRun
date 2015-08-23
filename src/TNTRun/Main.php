@@ -8,15 +8,30 @@ use pocketmine\event\Listener;
 use pocketmine\level\Level;
 use pocketmine\Player;
 use TNTRun\commands\TNTRunCommand;
+use TNTRun\stats\MySQLStatsProvider;
+use TNTRun\stats\SQLiteStatsProvider;
 
 class Main extends PluginBase implements Listener{
+
+    /**@var \TNTRun\stats\StatsProvider*/
+    public $stats;
 
     public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getLogger()->info(TextFormat::GREEN . "TNTRun Enabled!");
         $this->saveDefaultConfig();
         $this->getServer()->getCommandMap()->register("tntrun", new TNTRunCommand($this));
-        $this->statistics = new Config($this->getDataFolder()."statistics.yml", Config::YAML);
+        switch(strtolower($this->getConfig()->get("stats-provider"))){
+            case "sqlite3":
+                $this->stats = new SQLiteStatsProvider($this);
+                break;
+            case "mysql":
+                $this->stats = new MySQLStatsProvider($this);
+                break;
+            default:
+                $this->stats = new SQLiteStatsProvider($this);
+                break;
+        }
     }
 
     public function onLoad(){

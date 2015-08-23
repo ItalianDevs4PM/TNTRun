@@ -6,4 +6,6 @@ block: TNT
 money-for-won: 10
 #Lobby level name
 lobby: "world"
+#sqlite3 or mysql
+stats-provider: sqlite3
 ...
