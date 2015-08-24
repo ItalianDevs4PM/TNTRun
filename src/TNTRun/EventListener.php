@@ -44,9 +44,17 @@ class EventListener implements Listener{
     }
     
     public function onBreak(BlockBreakEvent $event){
-        
+        foreach($this->tntRun->arenas as $arena){
+            if($arena->getPlayerManager()->isPlaying($event->getPlayer()) and $arena->getStatutsManager()->isRunning()){
+               $event->setCancelled();
+          }
+       }
     }
-    
-    
-
+    public function onPlace(BlockPlaceEvent $event){
+        foreach($this->tntRun->arenas as $arena){
+            if($arena->getPlayerManager()->isPlaying($event->getPlayer()) and $arena->getStatutsManager()->isRunning()){
+               $event->setCancelled();
+          }
+       }
+    }
 }
