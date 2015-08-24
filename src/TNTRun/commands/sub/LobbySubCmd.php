@@ -1,9 +1,10 @@
 <?php
 
-namespace TNTRun\commands;
+namespace TNTRun\commands\sub;
 
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
+use TNTRun\commands\SubCmd;
 
 class LobbySubCmd extends SubCmd{
 

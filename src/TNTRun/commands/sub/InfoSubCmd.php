@@ -1,9 +1,10 @@
 <?php
 
-namespace TNTRun\commands;
+namespace TNTRun\commands\sub;
 
 use pocketmine\command\CommandSender;
 use pocketmine\utils\TextFormat;
+use TNTRun\commands\SubCmd;
 
 class InfoSubCmd extends SubCmd{
 

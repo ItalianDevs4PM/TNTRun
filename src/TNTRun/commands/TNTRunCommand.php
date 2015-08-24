@@ -18,12 +18,13 @@ class TNTRunCommand extends Command implements PluginIdentifiableCommand{
         $this->tntRun = $tntRun;
         $this->setPermission("tntrun.command");
 
-        foreach(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->getPlugin()->getCommandsPath())) as $file => $obj){
-            if($file === "TNTRunCommand.php" or $file === "SubCmd.php" or $file === ".." or $file === "."){
+        foreach(new \RecursiveIteratorIterator(new \RecursiveDirectoryIterator($this->getPlugin()->getCommandsPath()."sub/")) as $obj){
+            /** @var \SplFileObject $obj */
+            if($obj->getExtension() !== "php"){
                 continue;
             }
-            $class = substr($file, 0, strlen($file) - 4); //rimuove estensione .php
-            $className = "\\".__NAMESPACE__."\\".$class;
+            $class = $obj->getBasename(".php"); //rimuove estensione .php
+            $className = "\\".__NAMESPACE__."\\sub\\".$class;
             $this->subCommands[strtolower(substr($class, 0, strlen($class) - 6))] = new $className($this);
         }
     }
