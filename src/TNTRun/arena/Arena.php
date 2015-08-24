@@ -1,8 +1,11 @@
 <?php
-namespace TNTRun\Arena;
+namespace TNTRun\arena;
 
+use TNTRun\arena\handlers\GameHandler;
+use TNTRun\arena\handlers\PlayerHandler;
+use TNTRun\arena\status\PlayersManager;
+use TNTRun\arena\status\StatusManager;
 use TNTRun\Main;
-use TNTRun\Arena\Handlers;
 
 class Arena{
     /** @var string */
@@ -15,18 +18,18 @@ class Arena{
     private $playerHandler;
     /** @var StatusManager */
     private $statusManager;
-    /** @var PlayerManager */
+    /** @var PlayersManager */
     private $playerManager;
     
-    public function __construct(string $name, Main $tntRun){
+    public function __construct($name, Main $tntRun){
         $this->tntRun = $tntRun;
         $this->name = $name;
         
-        $this->gameHandler = new GameHandlers($tntRun, $this);  
-        $this->playerHandler = new Handlers\PlayerHandler($tntRun, $this);
+        $this->gameHandler = new GameHandler($tntRun, $this);
+        $this->playerHandler = new PlayerHandler($tntRun, $this);
         
         $this->statusManager = new StatusManager($this);
-        $this->playerManager = new PlayerManager($this);       
+        $this->playerManager = new PlayersManager($this);
     }
     
     public function getName(){
