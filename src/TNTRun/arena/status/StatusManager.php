@@ -1,9 +1,7 @@
 <?php
-namespace TNTRun\Arena\Status;
+namespace TNTRun\arena\status;
 
-use TNTRun\Main;
-use TNTRun\Arena\Handlers;
-use TNTRun\Arena;
+use TNTRun\arena\Arena;
 
 class StatusManager{
     /** @var Arena */
@@ -31,7 +29,7 @@ class StatusManager{
         return $this->starting;
     }
     
-    public function setStarting(bool $status = true){
+    public function setStarting($status = true){
         $this->starting = $status;
     }
     
@@ -39,7 +37,7 @@ class StatusManager{
         return $this->running;
     }
     
-    public function setRunning(bool $status = true){
+    public function setRunning($status = true){
         $this->running = $status;
     }
     
@@ -47,7 +45,7 @@ class StatusManager{
         return $this->regenerating;
     }
     
-    public function setRegenerating(bool $status = true){
+    public function setRegenerating($status = true){
         $this->regenerating = $status;
     }
 }
