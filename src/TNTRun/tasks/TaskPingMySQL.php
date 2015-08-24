@@ -4,7 +4,6 @@ namespace TNTRun\tasks;
 
 use TNTRun\Main;
 use pocketmine\scheduler\PluginTask;
-use TNTRun\stats\MySQLStatsProvider;
 
 class TaskPingMySQL extends PluginTask{
     /** @var Main */
@@ -17,8 +16,6 @@ class TaskPingMySQL extends PluginTask{
     }
         
     public function onRun($currentTick){
-        /** @var MySQLStatsProvider $stats */
-        $stats = $this->tntRun->getStats();
-        $stats->ping();
+        $this->tntRun->getStats()->ping();
     }
 }
