@@ -3,7 +3,7 @@
 namespace TNTRun\stats;
 
 use TNTRun\Main;
-use TNTRun\Task\TaskPingMySQL;
+use TNTRun\tasks\TaskPingMySQL;
 
 class MySQLStatsProvider implements StatsProvider{
     /** @var Main */
@@ -51,6 +51,10 @@ class MySQLStatsProvider implements StatsProvider{
             }
         }
         return null;
+    }
+
+    public function ping(){
+        return $this->db->ping();
     }
 
     public function close(){
