@@ -70,7 +70,7 @@ class GameHandler{
     
     public function startArenaRegen(){
         $this->arena->getStatusManager()->setRegenerating();
-        $block = Block::get($this->tntRun->getConfig()->get("block"));
+        $block = Block::get(constant("Block::".strtoupper($this->tntRun->getConfig()->get("block"))));
         $level = $this->tntRun->getServer()->getLevelByName($this->arena->getLevelName());
         foreach($this->arena->getFloors() as $floorY){
             for($x = $this->arena->getPos1()["x"]; $x <= $this->arena->getPos2()["x"]; $x++){
