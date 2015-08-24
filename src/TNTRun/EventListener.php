@@ -3,6 +3,7 @@
 namespace TNTRun;
 
 use pocketmine\block\Block;
+use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\player\PlayerMoveEvent;
@@ -39,22 +40,25 @@ class EventListener implements Listener{
                 if($p->y < $arena->getStructureManager()->getLowestFloorY()){
                     $arena->getPlayerHandler()->leavePlayer($p);
                 }
+                return;
             }
         }
     }
     
     public function onBreak(BlockBreakEvent $event){
         foreach($this->tntRun->arenas as $arena){
-            if($arena->getPlayerManager()->isPlaying($event->getPlayer()) and $arena->getStatutsManager()->isRunning()){
-               $event->setCancelled();
-          }
-       }
+            if($arena->getPlayerManager()->isPlaying($event->getPlayer())){
+                $event->setCancelled();
+                return;
+            }
+        }
     }
     public function onPlace(BlockPlaceEvent $event){
         foreach($this->tntRun->arenas as $arena){
-            if($arena->getPlayerManager()->isPlaying($event->getPlayer()) and $arena->getStatutsManager()->isRunning()){
-               $event->setCancelled();
-          }
-       }
+            if($arena->getPlayerManager()->isPlaying($event->getPlayer())){
+                $event->setCancelled();
+                return;
+            }
+        }
     }
 }
