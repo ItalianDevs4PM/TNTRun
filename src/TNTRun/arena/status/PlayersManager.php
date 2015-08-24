@@ -1,10 +1,9 @@
 <?php
-namespace TNTRun\Arena\Status;
+namespace TNTRun\arena\status;
 
-use TNTRun\Main;
-use TNTRun\Arena\Handlers;
-use TNTRun\Arena;
+use TNTRun\arena\Arena;
 use pocketmine\Player;
+
 class PlayersManager{
     
     private $arena;
@@ -17,11 +16,7 @@ class PlayersManager{
     
     public function isInArena(Player $player){
         $player = strtolower($player->getName());
-        if(isset($this->players[$player]))
-            return true;
-        if(isset($this->spectators[$player]))
-            return true;
-        return false;
+        return isset($this->players[$player]) or isset($this->players[$player]);
     }
     
     public function getPlayersCount(){
@@ -42,16 +37,20 @@ class PlayersManager{
     
     public function removePlayer(Player $player){
         $player = strtolower($player->getName());
-        if(isset($this->players[$player]))
+        if(isset($this->players[$player])){
             unset($this->players[$player]);
-        if(isset($this->spectators[$player]))
+        }
+        if(isset($this->spectators[$player])){
             unset($this->spectators[$player]);
+        }
     }
-    
+
+    public function isPlaying(Player $player){
+        return isset($this->players[strtolower($player->getName())]);
+    }
+
     public function isSpectator(Player $player){
-        if(isset($this->spectators[$player]))
-            return true;
-        return false;
+        return isset($this->spectators[strtolower($player->getName())]);
     }
     
     public function addSpectator(Player $player){
@@ -59,8 +58,9 @@ class PlayersManager{
     }
     
     public function removeSpectator(Player $player){
-        if(isset($this->spectators[$player]))
-            unset($this->spectators[$player]);    
+        if(isset($this->spectators[strtolower($player->getName())])){
+            unset($this->spectators[strtolower($player->getName())]);
+        }
     }
     
     public function getSpectators(){
