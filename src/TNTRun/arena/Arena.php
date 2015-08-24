@@ -9,7 +9,7 @@ use TNTRun\Main;
 
 class Arena{
     /** @var string */
-    private $name, $levelName;
+    private $name;
     /** @var Main */
     private $tntRun;
     /** @var GameHandler */

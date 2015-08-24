@@ -32,7 +32,7 @@ class Main extends PluginBase implements Listener{
                 $this->stats = new SQLiteStatsProvider($this);
                 break;
         }
-        //todo: load arenas
+        $this->loadArenas();
     }
 
     public function getStats(){
@@ -46,6 +46,7 @@ class Main extends PluginBase implements Listener{
     public function onDisable(){
         $this->getLogger()->info(TextFormat::RED."TNTRun Disabled");
         $this->getConfig()->save();
+        $this->saveArenas();
     }
 
     public function getCommandsPath(){
@@ -55,5 +56,36 @@ class Main extends PluginBase implements Listener{
     public function getLobby(){
         $level = $this->getServer()->getLevelByName($this->getConfig()->get("lobby"));
         return $level !== null ? $level->getSafeSpawn() : $this->getServer()->getDefaultLevel()->getSafeSpawn();
+    }
+
+    private function loadArenas(){
+        if(file_exists($this->getDataFolder()."arenas.yml")){
+            $arenas = yaml_parse_file($this->getDataFolder()."arenas.yml");
+            foreach($arenas as $name => $data){
+                $this->arenas[$name] = new Arena($this, $data);
+            }
+        }
+    }
+
+    private function saveArenas(){
+        $save = [];
+        foreach($this->arenas as $name => $arena){
+            $str = $arena->getStructureManager();
+            $spawn = $arena->getStructureManager()->getSpawn();
+            $save[$name] = ["pos1" =>
+                [
+                    "x" => $str->getPos1()["x"],
+                    "z" => $arena->getStructureManager()->getPos1()["z"]
+                ],
+                "pos2" => [
+                    "x" => $str->getPos2()["x"],
+                    "z" => $str->getPos2()["z"]
+                ],
+                "floors" => $str->getFloors(),
+                "levelName" => $str->getLevelName(),
+                "spawn" => ["x" => $spawn->x, "y" => $spawn->y, "z" => $spawn->z]
+            ];
+        }
+        yaml_emit_file($this->getDataFolder()."arenas.yml", $save);
     }
 }
