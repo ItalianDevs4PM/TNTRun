@@ -35,7 +35,7 @@ class EventListener implements Listener{
         foreach($this->tntRun->arenas as $arena){
             if($arena->getPlayerManager()->isPlaying($event->getPlayer()) and $arena->getStatusManager()->isRunning()){
                 $p = $event->getPlayer();
-                $p->getServer()->getScheduler()->scheduleDelayedTask(new UnsetBlockTask($this->tntRun, $p->getLevel()->getBlock(new Vector3($p->getFloorX(), $p->getFloorY() - 1, $p->getFloorZ()))), 20);
+                $p->getServer()->getScheduler()->scheduleDelayedTask(new UnsetBlockTask($this->tntRun, $p->getLevel()->getBlock(new Vector3($p->getFloorX(), $p->getFloorY() - 1, $p->getFloorZ()))), 40);
                 if($p->y < $arena->getStructureManager()->getLowestFloorY()){
                     $arena->getPlayerHandler()->leavePlayer($p);
                 }

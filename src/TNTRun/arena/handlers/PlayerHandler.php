@@ -35,8 +35,16 @@ class PlayerHandler{
             $player->sendMessage("You left the arena ".$this->arena->getName());
             $player->teleport($this->tntRun->getLobby());
         }
+        if($this->arena->getPlayerManager()->getPlayersCount() === 1 and $this->arena->getStatusManager()->isRunning()){
+            $this->arena->getGameHandler()->stopArena();
+        }
     }
     
-    
-    
+    public function leaveSpectator(Player $player){
+        $this->arena->getPlayerManager()->removeSpectator($player);
+        if($player->isOnline()){
+            $player->sendMessage("You are no longer spectating the arena ".$this->arena->getName());
+            $player->teleport($this->tntRun->getLobby());
+        }
+    }
 }
