@@ -5,6 +5,7 @@ namespace TNTRun;
 use pocketmine\utils\TextFormat;
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
+use TNTRun\arena\Arena;
 use TNTRun\commands\TNTRunCommand;
 use TNTRun\stats\MySQLStatsProvider;
 use TNTRun\stats\SQLiteStatsProvider;
@@ -12,9 +13,11 @@ use TNTRun\stats\SQLiteStatsProvider;
 class Main extends PluginBase implements Listener{
     /** @var \TNTRun\stats\StatsProvider */
     private $stats;
+    /** @var Arena[] */
+    private $arenas = [];
 
     public function onEnable(){
-        $this->getServer()->getPluginManager()->registerEvents($this, $this);
+        $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         $this->getLogger()->info(TextFormat::GREEN."TNTRun Enabled!");
         $this->saveDefaultConfig();
         $this->getServer()->getCommandMap()->register("tntrun", new TNTRunCommand($this));
@@ -29,6 +32,7 @@ class Main extends PluginBase implements Listener{
                 $this->stats = new SQLiteStatsProvider($this);
                 break;
         }
+        //todo: load arenas
     }
 
     public function getStats(){
