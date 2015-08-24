@@ -30,10 +30,7 @@ class Main extends PluginBase implements Listener{
                 break;
         }
     }
-    
-    /**
-     * @return \TNTRun\stats\StatsProvider
-     */
+
     public function getStats(){
         return $this->stats;
     }

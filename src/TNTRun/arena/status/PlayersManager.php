@@ -7,7 +7,7 @@ use pocketmine\Player;
 class PlayersManager{
     
     private $arena;
-    /** @var array */    
+    /** @var Player[] */
     private $players, $spectators;
     
     public function __construct(Arena $arena){
@@ -26,7 +26,10 @@ class PlayersManager{
     public function getPlayers(){
         return $this->players;
     }
-    
+
+    /**
+     * @return Player[]
+     */
     public function getAllPlayers(){
         return array_merge($this->players, $this->spectators);
     }
