@@ -17,15 +17,23 @@ class PlayerHandler{
     }
     
     public function spawnPlayer(Player $player){
-
+        $this->arena->getPlayerManager()->addPlayer($player);
+        $player->teleport($this->arena->getSpawn());
+        $player->sendMessage("You are now in arena: ".$this->arena->getName());
     }
     
     public function spectatePlayer(Player $player){
-        
+        $this->arena->getPlayerManager()->addSpectator($player);
+        $player->teleport($this->arena->getSpawn());
+        $player->setGamemode(Player::SPECTATOR);
+        $player->sendMessage("You are now spectating in arena: ".$this->arena->getName());
     }
     
     public function leavePlayer(Player $player){
-
+        $this->arena->getPlayerManager()->removePlayer($player);
+        if($player->isOnline()){
+            $player->sendMessage("You left the arena ".$this->arena->getName());
+        }
     }
     
     

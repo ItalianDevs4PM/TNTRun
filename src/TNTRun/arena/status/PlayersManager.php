@@ -35,7 +35,7 @@ class PlayersManager{
     }
     
     public function addPlayer(Player $player){
-        $this->players[strtolower($player->getName())] = $player;        
+        $this->players[strtolower($player->getName())] = $player;
     }
     
     public function removePlayer(Player $player){
@@ -57,7 +57,7 @@ class PlayersManager{
     }
     
     public function addSpectator(Player $player){
-        $this->spectators[strtolower($player->getName())] = $player;        
+        $this->spectators[strtolower($player->getName())] = $player;
     }
     
     public function removeSpectator(Player $player){
