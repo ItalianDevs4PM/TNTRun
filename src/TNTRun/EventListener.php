@@ -5,10 +5,12 @@ namespace TNTRun;
 use pocketmine\block\Block;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\event\player\PlayerMoveEvent;
+use pocketmine\math\Vector3;
 use pocketmine\tile\Sign;
 use pocketmine\utils\TextFormat;
-use pocketmine\event\entity\EntityMotionEvent;
 use pocketmine\event\block\BlockBreakEvent;
+use TNTRun\tasks\UnsetBlockTask;
 
 class EventListener implements Listener{
 
@@ -29,9 +31,16 @@ class EventListener implements Listener{
         }
     }
     
-    public function onMove(EntityMotionEvent $event){
-        
-        
+    public function onMove(PlayerMoveEvent $event){
+        foreach($this->tntRun->arenas as $arena){
+            if($arena->getPlayerManager()->isPlaying($event->getPlayer()) and $arena->getStatusManager()->isRunning()){
+                $p = $event->getPlayer();
+                $p->getServer()->getScheduler()->scheduleDelayedTask(new UnsetBlockTask($this->tntRun, $p->getLevel()->getBlock(new Vector3($p->getFloorX(), $p->getFloorY() - 1, $p->getFloorZ()))), 20);
+                if($p->y < $arena->getStructureManager()->getLowestFloorY()){
+                    $arena->getPlayerHandler()->leavePlayer($p);
+                }
+            }
+        }
     }
     
     public function onBreak(BlockBreakEvent $event){

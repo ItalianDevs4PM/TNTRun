@@ -2,14 +2,19 @@
 
 namespace TNTRun\arena;
 
-use pocketmine\math\Vector3;
+use pocketmine\level\Position;
+use TNTRun\Main;
 
 class StructureManager{
-    
+
+    /** @var  Main */
+    private $tntRun;
     /** @var array */
     private $pos1, $pos2, $floors, $spawn;   
     
-    public function __construct(array $data){
+    public function __construct(Main $tntRun, array $data){
+        $this->tntRun = $tntRun;
+
         $this->pos1 = ["x" => min($data["pos1"]["x"], $data["pos2"]["x"]), "z" => min($data["pos1"]["z"], $data["pos2"]["z"])];
         $this->pos2 = ["x" => max($data["pos1"]["x"], $data["pos2"]["x"]), "z" => max($data["pos1"]["z"], $data["pos2"]["z"])];
         $this->floors = $data["floors"];
@@ -18,7 +23,7 @@ class StructureManager{
         $this->spawn = $data["spawn"];
     }
     
-    public function isInside(Vector3 $pos){
+    public function isInside(Position $pos){
         return ($pos->getLevel()->getName() === $this->levelName and
             $pos->x >= $this->pos1["x"] and
             $pos->x <= $this->pos2["x"] and

@@ -14,7 +14,7 @@ class Main extends PluginBase implements Listener{
     /** @var \TNTRun\stats\StatsProvider */
     private $stats;
     /** @var Arena[] */
-    private $arenas = [];
+    public $arenas = [];
 
     public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
@@ -50,5 +50,10 @@ class Main extends PluginBase implements Listener{
 
     public function getCommandsPath(){
         return $this->getFile()."src/". __NAMESPACE__."/commands/";
+    }
+
+    public function getLobby(){
+        $level = $this->getServer()->getLevelByName($this->getConfig()->get("lobby"));
+        return $level !== null ? $level->getSafeSpawn() : $this->getServer()->getDefaultLevel()->getSafeSpawn();
     }
 }
