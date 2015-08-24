@@ -13,7 +13,7 @@ class CmdsSubCmd extends SubCmd{
         $sender->sendMessage(TextFormat::GREEN."/tr cmds to see this list");
         $sender->sendMessage(TextFormat::GREEN."/tr stats for statistics");
         $sender->sendMessage(TextFormat::GREEN."/tr leave to exit the match");
-        $sender->sendMessage(TextFormat::GREEN."/tr info for TnTRun informations");
+        $sender->sendMessage(TextFormat::GREEN."/tr info for TNTRun informations");
         return true;
     }
 
