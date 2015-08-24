@@ -61,21 +61,21 @@ class Main extends PluginBase implements Listener{
     private function loadArenas(){
         if(file_exists($this->getDataFolder()."arenas.yml")){
             $arenas = yaml_parse_file($this->getDataFolder()."arenas.yml");
-            foreach($arenas as $name => $data){
-                $this->arenas[$name] = new Arena($this, $data);
+            foreach($arenas as $data){
+                $this->arenas[] = new Arena($this, $data);
             }
         }
     }
 
     private function saveArenas(){
         $save = [];
-        foreach($this->arenas as $name => $arena){
+        foreach($this->arenas as $arena){
             $str = $arena->getStructureManager();
-            $spawn = $arena->getStructureManager()->getSpawn();
-            $save[$name] = ["pos1" =>
-                [
+            $spawn = $str->getSpawn();
+            $save[] = ["name" => $arena->getName(),
+                "pos1" => [
                     "x" => $str->getPos1()["x"],
-                    "z" => $arena->getStructureManager()->getPos1()["z"]
+                    "z" => $str->getPos1()["z"]
                 ],
                 "pos2" => [
                     "x" => $str->getPos2()["x"],
