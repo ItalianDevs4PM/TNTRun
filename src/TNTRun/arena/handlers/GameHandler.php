@@ -1,10 +1,11 @@
 <?php
-namespace TNTRun\Arena\Handlers;
+namespace TNTRun\arena\handlers;
 
-use TNTRun\Match\Arena;
+use TNTRun\arena\Arena;
+use TNTRun\Main;
 use pocketmine\Player;
 
-class Handler{
+class GameHandler{
     /** @var Main */
     private $tntRun;
     /** @var Arena */
