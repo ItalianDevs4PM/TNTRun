@@ -13,7 +13,7 @@ class LobbySubCmd extends SubCmd{
             $sender->sendMessage("Please run this command in game");
             return true;
         }
-        $level = $this->tntRun->getServer()->getLevelByName($this->tntRun->getConfig()->get("lobby"));
+        $level = $this->getMain()->getServer()->getLevelByName($this->getMain()->getConfig()->get("lobby"));
         if($level !== null){
             $sender->teleport($level->getSafeSpawn());
             $sender->sendMessage("Teleported to lobby");
