@@ -23,6 +23,7 @@ class GameHandler{
 
     public function startArenaCountDown(){
         $this->countDownTaskId = $this->tntRun->getServer()->getScheduler()->scheduleDelayedRepeatingTask(new CountDownTask($this->tntRun, $this->arena), 20, 20)->getTaskId();
+        $this->arena->getStatusManager()->setStarting();
     }
     
     public function runArenaCountDown(){  
@@ -40,6 +41,7 @@ class GameHandler{
         $this->tntRun->getServer()->getScheduler()->cancelTask($this->countDownTaskId);
         if($this->arena->getPlayerManager()->getPlayersCount() >= $this->tntRun->getConfig()->get("min-players")){
             $this->startArena();
+            $this->arena->getStatusManager()->setStarting(false);
         }else{
             foreach($this->arena->getPlayerManager()->getAllPlayers() as $p){
                 $p->sendMessage("There aren't enough players to begin the match");
@@ -49,11 +51,14 @@ class GameHandler{
     }
     
     public function startArena(){
-        
+        $this->arena->getStatusManager()->setRunning();
+        //todo
     }
     
     public function stopArena(){
-        
+        //todo
+        $this->arena->getStatusManager()->setRunning(false);
+        $this->startArenaRegen();
     }
     
     public function handlePlayer(Player $player){
@@ -61,7 +66,9 @@ class GameHandler{
     }
     
     public function startArenaRegen(){
-        
+        $this->arena->getStatusManager()->setRegenerating();
+        //todo
+        $this->arena->getStatusManager()->setRegenerating(false);
     }
     
     public function startEnding(Player $player){
