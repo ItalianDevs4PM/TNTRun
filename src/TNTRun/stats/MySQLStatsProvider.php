@@ -3,11 +3,12 @@
 namespace TNTRun\stats;
 
 use TNTRun\Main;
+use TNTRun\Task\TaskPingMySQL;
 
 class MySQLStatsProvider implements StatsProvider{
     /** @var Main */
     private $tntRun;
-    /** @var mysqli */
+    /** @var \mysqli */
     private $db;
     
     public function __construct(Main $tntRun){
@@ -16,7 +17,7 @@ class MySQLStatsProvider implements StatsProvider{
         $this->db = new \mysqli($settings["host"], $settings["username"], $settings["password"], $settings["database"], isset($settings["port"]) ? $settings["port"] : 3306);
         
         if($this->db->connect_error){
-            $tntRun->getLogger()->critical("Couldn't connect to MySQL: ". $this->db->connect_error);
+            $tntRun->getLogger()->critical("Couldn't connect to MySQL: ".$this->db->connect_error);
             $tntRun->getServer()->shutdown();
             return;
         }
@@ -26,8 +27,9 @@ class MySQLStatsProvider implements StatsProvider{
     }
 
     public function register($playerName){
-        if(is_null($this->getStats($playerName)))
+        if(is_null($this->getStats($playerName))){
             $this->db->query("INSERT INTO tntstats (name, matches, wins) VALUES ('".$this->db->escape_string(trim(strtolower($playerName)))."', 0, 0)");
+        }
     }
 
     public function addMatch($playerName){
@@ -39,12 +41,12 @@ class MySQLStatsProvider implements StatsProvider{
     }
 
     public function getStats($playerName){
-        $playerName = trim(strtolower($playerName));
-        $result = $this->db->query("SELECT * FROM tntstats WHERE name = '".$this->db->escape_string($playerName)."'");
+        $playerName = $this->db->escape_string(trim(strtolower($playerName)));
+        $result = $this->db->query("SELECT * FROM tntstats WHERE name = '".$playerName."'");
         if($result instanceof \mysqli_result){
             $assoc = $result->fetch_assoc();
             $result->free();
-            if(isset($assoc["name"]) and $assoc["name"] === $this->db->escape_string($playerName)){
+            if(isset($assoc["name"]) and $assoc["name"] === $playerName){
                 return $assoc;
             }
         }

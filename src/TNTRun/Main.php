@@ -32,7 +32,7 @@ class Main extends PluginBase implements Listener{
     }
     
     /**
-     * @return StatsProvider
+     * @return \TNTRun\stats\StatsProvider
      */
     public function getStats(){
         return $this->stats;
@@ -48,6 +48,6 @@ class Main extends PluginBase implements Listener{
     }
 
     public function getCommandsPath(){
-        return $this->getFile()."/src/". __NAMESPACE__."/commands/";
+        return $this->getFile()."src/". __NAMESPACE__."/commands/";
     }
 }

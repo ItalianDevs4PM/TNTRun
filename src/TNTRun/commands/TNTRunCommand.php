@@ -8,10 +8,9 @@ use pocketmine\command\PluginIdentifiableCommand;
 use TNTRun\Main;
 
 class TNTRunCommand extends Command implements PluginIdentifiableCommand{
-
-    /**@var Main*/
+    /** @var Main */
     public $tntRun;
-    /**@var SubCmd[]*/
+    /** @var SubCmd[] */
     public $subCommands = [];
 
     public function __construct(Main $tntRun){
@@ -24,7 +23,8 @@ class TNTRunCommand extends Command implements PluginIdentifiableCommand{
                 continue;
             }
             $class = substr($file, 0, strlen($file) - 4); //rimuove estensione .php
-            $this->subCommands[strtolower(substr($class, 0, strlen($class) - 6))] = new $class($this);
+            $className = "\\".__NAMESPACE__."\\".$class;
+            $this->subCommands[strtolower(substr($class, 0, strlen($class) - 6))] = new $className($this);
         }
     }
 
@@ -40,9 +40,8 @@ class TNTRunCommand extends Command implements PluginIdentifiableCommand{
         return true;
     }
 
-    /**@return Main*/
+    /** @return Main */
     public function getPlugin(){
         return $this->tntRun;
     }
-
 }

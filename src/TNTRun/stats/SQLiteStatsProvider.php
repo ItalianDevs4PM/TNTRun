@@ -7,7 +7,7 @@ use TNTRun\Main;
 class SQLiteStatsProvider{
     /** @var Main */
     private $tntRun;
-    /** @var mysqli */
+    /** @var \SQLite3 */
     private $db;
     
     public function __construct(Main $tntRun){
@@ -22,8 +22,9 @@ class SQLiteStatsProvider{
     }
 
     public function register($playerName){
-        if(is_null($this->getStats($playerName)))
+        if(is_null($this->getStats($playerName))){
             $this->db->exec("INSERT INTO tntstats (name, matches, wins) VALUES ('".$this->db->escapeString(trim(strtolower($playerName)))."', 0, 0)");
+        }
     }
 
     public function addMatch($playerName){
@@ -35,11 +36,11 @@ class SQLiteStatsProvider{
     }
 
     public function getStats($playerName){
-        $playerName = trim(strtolower($playerName));
-        $result = $this->db->query("SELECT * FROM tntstats WHERE name = '".$this->db->escapeString($playerName)."'");
+        $playerName = $this->db->escapeString(trim(strtolower($playerName)));
+        $result = $this->db->query("SELECT * FROM tntstats WHERE name = '".$playerName."'");
         if($result instanceof \SQLiteResult){
             $assoc = $result->fetch(SQLITE_ASSOC);
-            if(isset($assoc["name"]) and $assoc["name"] === $this->db->escapeString($playerName)){
+            if(isset($assoc["name"]) and $assoc["name"] === $playerName){
                 return $assoc;
             }
         }

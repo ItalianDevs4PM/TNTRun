@@ -8,6 +8,9 @@ use pocketmine\Player;
 use TNTRun\Main;
 //use pocketmine\event\player\PlayerMoveEvent;
 
+/**
+ * @DEPRECATED
+ */
 class Arena{
 
     public function __construct(Main $tntRun, $levelName, array $pos1, array $pos2, array $floors){
