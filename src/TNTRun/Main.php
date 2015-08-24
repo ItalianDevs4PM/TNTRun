@@ -15,7 +15,7 @@ class Main extends PluginBase implements Listener{
 
     public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
-        $this->getLogger()->info(TextFormat::GREEN . "TNTRun Enabled!");
+        $this->getLogger()->info(TextFormat::GREEN."TNTRun Enabled!");
         $this->saveDefaultConfig();
         $this->getServer()->getCommandMap()->register("tntrun", new TNTRunCommand($this));
         switch(strtolower($this->getConfig()->get("stats-provider"))){
@@ -39,11 +39,11 @@ class Main extends PluginBase implements Listener{
     }
 
     public function onLoad(){
-        $this->getLogger()->info(TextFormat::YELLOW . "Loading TNTRun...");
+        $this->getLogger()->info(TextFormat::YELLOW."Loading TNTRun...");
     }
 
     public function onDisable(){
-        $this->getLogger()->info(TextFormat::RED . "TNTRun Disabled");
+        $this->getLogger()->info(TextFormat::RED."TNTRun Disabled");
         $this->getConfig()->save();
     }
 

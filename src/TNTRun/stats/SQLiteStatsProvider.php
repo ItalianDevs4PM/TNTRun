@@ -12,12 +12,13 @@ class SQLiteStatsProvider{
     
     public function __construct(Main $tntRun){
         $this->tntRun = $tntRun;
-        
-        if(file_exists($tntRun->getDataFolder()."stats.db"))
+
+        if(file_exists($tntRun->getDataFolder()."stats.db")){
             $this->db = new \SQLite3($tntRun->getDataFolder()."stats.db", SQLITE3_OPEN_READWRITE);
-        else
-            $this->db = new \SQLite3($tntRun->getDataFolder()."stats.db", SQLITE3_OPEN_CREATE|SQLITE3_OPEN_READWRITE);
-        
+        }else{
+            $this->db = new \SQLite3($tntRun->getDataFolder()."stats.db", SQLITE3_OPEN_CREATE | SQLITE3_OPEN_READWRITE);
+        }
+
         $this->db->exec("CREATE TABLE IF NOT EXISTS tntstats (name TEXT PRIMARY KEY, matches INTEGER, wins INTEGER)");
     }
 
