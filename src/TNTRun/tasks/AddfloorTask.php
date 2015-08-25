@@ -25,7 +25,7 @@ class AddfloorTask extends PluginTask
         $blocks = 0;
         for($x = $this->pos1["x"]; $x <= $this->pos2["x"]; $x++){
             for($z = $this->pos1["z"]; $z <= $this->pos2["z"]; $z++){
-                $block = $this->tntRun->getConfig()->get("block");
+                $block = $this->tntRun->getConfig()->get("block-id");
                 $this->level->setBlock(new Vector3($x, $this->floor, $z), Block::get($block));
                 $blocks += 1;
                 if($blocks >= $this->blocks){

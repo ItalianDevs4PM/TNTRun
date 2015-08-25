@@ -33,6 +33,8 @@ class Arena{
         $this->statusManager = new StatusManager($this);
         $this->playerManager = new PlayersManager($this);
         $this->structureManager = new StructureManager($this->tntRun, $data);
+
+        $this->gameHandler->startArenaRegen();
     }
     
     public function getName(){

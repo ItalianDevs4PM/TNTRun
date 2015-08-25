@@ -54,6 +54,7 @@ class CreateSubCmd extends SubCmd{
             "spawn" => ["x" => $sender->getFloorX(), "y" => $sender->getFloorY(), "z" => $sender->getFloorZ()] //todo setspawn subcmd
         ]);
         $sender->sendMessage(TextFormat::GREEN . "Arena created. Spawn pos set to current location");
+        unset($this->getMain()->selection[strtolower($sender->getName())]);
         return true;
     }
 
