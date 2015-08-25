@@ -20,28 +20,16 @@ class AddfloorSubCmd extends SubCmd{
             $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command!");
             return true;
         }
-        if(!isset($this->getMain()->selection[strtolower($sender->getName())]["pos1"])){
-            $sender->sendMessage(TextFormat::RED . "Please specify pos 1 first");
-            return true;
-        }
-        if(!isset($this->getMain()->selection[strtolower($sender->getName())]["pos2"])){
-            $sender->sendMessage(TextFormat::RED . "Please specify pos 2 first");
-            return true;
-        }
-        if($this->getMain()->selection[strtolower($sender->getName())]["pos1"]["level"] !== $this->getMain()->selection[strtolower($sender->getName())]["pos2"]["level"]){
-            $sender->sendMessage(TextFormat::RED . "Positions are in different levels");
-            return true;
-        }
-        $this->getMain()->getServer()->getScheduler()->scheduleDelayedTask(new AddfloorTask(
+        /*$this->getMain()->getServer()->getScheduler()->scheduleDelayedTask(new AddfloorTask(
             $this->getMain(),
             $this->getMain()->selection[strtolower($sender->getName())]["pos1"],
             $this->getMain()->selection[strtolower($sender->getName())]["pos2"],
             $sender->getFloorY(),
             $sender->getLevel()
             ), 10
-        );
+        );*/
+        $this->getMain()->selection[strtolower($sender->getName())]["floors"][] = $sender->getFloorY();
         $sender->sendMessage(TextFormat::GREEN . "Floor created");
-        unset($this->getMain()->selection[strtolower($sender->getName())]);
         return true;
     }
 }

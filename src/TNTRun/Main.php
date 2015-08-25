@@ -63,7 +63,7 @@ class Main extends PluginBase implements Listener{
         if(file_exists($this->getDataFolder()."arenas.yml")){
             $arenas = yaml_parse_file($this->getDataFolder()."arenas.yml");
             foreach($arenas as $data){
-                $this->arenas[] = new Arena($this, $data);
+                $this->arenas[strtolower($data["name"])] = new Arena($this, $data);
             }
         }
     }
