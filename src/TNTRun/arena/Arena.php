@@ -8,6 +8,7 @@ use TNTRun\arena\status\StatusManager;
 use TNTRun\Main;
 
 class Arena{
+
     /** @var string */
     private $name;
     /** @var Main */
@@ -60,4 +61,5 @@ class Arena{
     public function getStructureManager(){
         return $this->structureManager;
     }
+
 }

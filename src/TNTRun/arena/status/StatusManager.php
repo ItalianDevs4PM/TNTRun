@@ -4,6 +4,7 @@ namespace TNTRun\arena\status;
 use TNTRun\arena\Arena;
 
 class StatusManager{
+
     /** @var Arena */
     private $arena;
     /** @var bool */
@@ -48,4 +49,5 @@ class StatusManager{
     public function setRegenerating($status = true){
         $this->regenerating = $status;
     }
+
 }

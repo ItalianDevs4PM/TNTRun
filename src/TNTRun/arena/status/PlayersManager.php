@@ -69,5 +69,6 @@ class PlayersManager{
     public function getSpectators(){
         return $this->spectators;
     }
+
 }
 

@@ -61,4 +61,5 @@ class StructureManager{
     public function getSpawn(){
         return new Position($this->spawn["x"], $this->spawn["y"], $this->spawn["z"], $this->tntRun->getServer()->getLevelByName($this->levelName));
     }
+
 }

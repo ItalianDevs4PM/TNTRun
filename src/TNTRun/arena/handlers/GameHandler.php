@@ -1,8 +1,6 @@
 <?php
 namespace TNTRun\arena\handlers;
 
-use pocketmine\block\Block;
-use pocketmine\math\Vector3;
 use TNTRun\arena\Arena;
 use TNTRun\Main;
 use pocketmine\Player;
@@ -10,6 +8,7 @@ use TNTRun\tasks\AddfloorTask;
 use TNTRun\tasks\CountDownTask;
 
 class GameHandler{
+
     /** @var Main */
     private $tntRun;
     /** @var Arena */

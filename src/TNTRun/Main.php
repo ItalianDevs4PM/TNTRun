@@ -10,7 +10,8 @@ use TNTRun\commands\TNTRunCommand;
 use TNTRun\stats\MySQLStatsProvider;
 use TNTRun\stats\SQLiteStatsProvider;
 
-class Main extends PluginBase implements Listener{
+class Main extends PluginBase{
+
     /** @var \TNTRun\stats\StatsProvider */
     private $stats;
     /** @var Arena[] */
@@ -89,4 +90,5 @@ class Main extends PluginBase implements Listener{
         }
         yaml_emit_file($this->getDataFolder()."arenas.yml", $save);
     }
+
 }

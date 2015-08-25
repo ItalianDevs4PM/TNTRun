@@ -8,8 +8,7 @@ use pocketmine\math\Vector3;
 use pocketmine\scheduler\PluginTask;
 use TNTRun\Main;
 
-class AddfloorTask extends PluginTask
-{
+class AddfloorTask extends PluginTask{
 
     private $pos1, $pos2, $floor, $level, $blocks = 50, $interval = 10;
 
@@ -21,6 +20,7 @@ class AddfloorTask extends PluginTask
         $this->floor = $floor;
         $this->tntRun = $tntRun;
     }
+
     public function onRun($tick){
         $blocks = 0;
         for($x = $this->pos1["x"]; $x <= $this->pos2["x"]; $x++){
@@ -37,4 +37,5 @@ class AddfloorTask extends PluginTask
             $this->pos1["x"]++;
         }
     }
+
 }

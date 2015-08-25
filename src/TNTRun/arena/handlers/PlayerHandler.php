@@ -6,6 +6,7 @@ use TNTRun\Main;
 use pocketmine\Player;
 
 class PlayerHandler{
+
     /** @var Main */
     private $tntRun;
     /** @var Arena */
@@ -47,4 +48,5 @@ class PlayerHandler{
             $player->teleport($this->tntRun->getLobby());
         }
     }
+
 }
