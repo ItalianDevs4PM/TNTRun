@@ -1,0 +1,18 @@
+---
+#Config For TnTRun By ITADevs4PM
+#Here put the ID of the block
+block-id: 46
+#Here put the points for won
+money-for-won: 10
+#Lobby level name
+lobby: "world"
+#sqlite3 or mysql
+stats-provider: "sqlite3"
+#only for mysql users
+mysql:
+  host: "127.0.0.1"
+  username: "root"
+  password: "123abc"
+  database: "maindb"
+  port: 3306
+...
