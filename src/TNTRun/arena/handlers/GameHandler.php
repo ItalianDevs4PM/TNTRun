@@ -6,6 +6,7 @@ use pocketmine\math\Vector3;
 use TNTRun\arena\Arena;
 use TNTRun\Main;
 use pocketmine\Player;
+use TNTRun\tasks\AddfloorTask;
 use TNTRun\tasks\CountDownTask;
 
 class GameHandler{
@@ -70,14 +71,15 @@ class GameHandler{
     
     public function startArenaRegen(){
         $this->arena->getStatusManager()->setRegenerating();
-        $block = Block::get(constant("Block::".strtoupper($this->tntRun->getConfig()->get("block"))));
-        $level = $this->tntRun->getServer()->getLevelByName($this->arena->getLevelName());
-        foreach($this->arena->getFloors() as $floorY){
-            for($x = $this->arena->getPos1()["x"]; $x <= $this->arena->getPos2()["x"]; $x++){
-                for($z = $this->arena->getPos1()["z"]; $z <= $this->arena->getPos2()["z"]; $z++){
-                    $level->setBlock(new Vector3($x, $floorY, $z), $block);
-                }
-            }
+        $level = $this->tntRun->getServer()->getLevelByName($this->arena->getStructureManager()->getLevelName());
+        foreach($this->arena->getStructureManager()->getFloors() as $floorY){
+            $this->tntRun->getServer()->getScheduler()->scheduleDelayedTask(new AddfloorTask(
+                $this->tntRun,
+                $this->arena->getStructureManager()->getPos1(),
+                $this->arena->getStructureManager()->getPos2(),
+                $floorY,
+                $level), 10
+            );
         }
         $this->arena->getStatusManager()->setRegenerating(false);
     }
