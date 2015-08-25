@@ -15,10 +15,6 @@ class CreateSubCmd extends SubCmd{
             $sender->sendMessage(TextFormat::YELLOW . "Please run this command in game!");
             return true;
         }
-        if(!$sender->hasPermission("tntrun.addfloor")){
-            $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command!");
-            return true;
-        }
         if(!isset($this->getMain()->selection[strtolower($sender->getName())]["pos1"])){
             $sender->sendMessage(TextFormat::RED . "Please specify pos 1 first");
             return true;

@@ -51,8 +51,8 @@ class Main extends PluginBase{
         $this->saveArenas();
     }
 
-    public function getCommandsPath(){
-        return $this->getFile()."src/". __NAMESPACE__."/commands/";
+    public function getSubCommands(){
+        return $this->getFile()."src/". __NAMESPACE__."/commands/sub/";
     }
 
     public function getLobby(){
