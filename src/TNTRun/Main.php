@@ -15,6 +15,7 @@ class Main extends PluginBase implements Listener{
     private $stats;
     /** @var Arena[] */
     public $arenas = [];
+    public $selection = [];
 
     public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);

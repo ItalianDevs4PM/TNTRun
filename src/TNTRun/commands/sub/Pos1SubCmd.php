@@ -15,8 +15,8 @@ class Pos1SubCmd extends SubCmd{
             $sender->sendMessage(TextFormat::YELLOW . "Please run this command in game!");
             return true;
         }
-        $this->getMain()->selection[$sender->getName()]["pos1"] = [$sender->getFloorX(), $sender->getFloorY(), $sender->getFloorZ(), $sender->getLevel()];
-        $sender->sendMessage(TextFormat::GREEN . "Pos 1 set to : ".$sender->getPosition()->floor());
+        $this->getMain()->selection[$sender->getName()]["pos1"] = ["x" => $sender->getFloorX(), "z" =>  $sender->getFloorZ(), "level" => $sender->getLevel()->getName()];
+        $sender->sendMessage(TextFormat::GREEN . "Pos 1 set to : x=".$sender->getFloorX().", z=".$sender->getFloorZ().", level=".$sender->getLevel()->getName());
         return true;
     }
 
