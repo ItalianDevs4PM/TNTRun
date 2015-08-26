@@ -45,8 +45,8 @@ class SignHandler{
     }
 
     private function spawnSign(Position $pos, $get = false){
-        if(!$get || !isset($get))
-            $get = $this->signs->get($this->posFromString($pos));
+        if(!$get || !is_array($get))
+            $get = $this->signs->get($this->posToString($pos));
 
         if($pos->level->getBlockIdAt($pos->x, $pos->y, $pos->z) != Item::SIGN_POST && $pos->level->getBlockIdAt($pos->x, $pos->y, $pos->z) != Item::WALL_SIGN){
             if($pos->level->getBlockIdAt($pos->x, $pos->y - 1, $pos->z) != Item::AIR && $pos->level->getBlockIdAt($pos->x, $pos->y - 1, $pos->z) != Item::WALL_SIGN)
@@ -86,7 +86,7 @@ class SignHandler{
         }
 
         foreach($this->signs->getAll() as $var => $c){
-            $this->spawnSign($this->posFromString($var), $c);
+            $this->spawnSign($this->posToString($var), $c);
         }
     }
 
