@@ -17,7 +17,7 @@ class LeaveSubCmd extends SubCmd{
             if($arena->getPlayerManager()->isInArena($sender)){
                 $arena->getPlayerHandler()->leavePlayer($sender);
                 $sender->teleport($this->getMain()->getLobby());
-                $sender->sendMessage(TextFormat::GREEN . "You have leaved the match. Teleporting to lobby...");
+                $sender->sendMessage(TextFormat::GREEN . "You left the match. Teleporting to lobby...");
                 return true;
             }
         }
