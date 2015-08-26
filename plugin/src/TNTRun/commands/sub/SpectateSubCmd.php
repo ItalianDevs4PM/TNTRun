@@ -15,15 +15,29 @@ class SpectateSubCmd extends SubCmd{
             return true;
         }
         if(!isset($args[0])){
-            $sender->sendMessage(TextFormat::YELLOW . "Please specify a valid arena name!");
+            $sender->sendMessage(TextFormat::RED . "Please specify a valid arena name!");
         }
+
+        if(!isset($this->getMain()->arenas[strtolower($args[0])])){
+            $sender->sendMessage(TextFormat::RED . "The arena ".$args[0]." does not exist");
+            return true;
+        }
+        $inGame = false;
         foreach($this->getMain()->arenas as $arena){
             if($arena->getPlayerManager()->isPlaying($sender)){
-                $sender->sendMessage(TextFormat::RED . "You can't spectate,you are in game!");
-            }else{
-                $arena->getPlayerHandler()->spectatePlayer($sender);
+                $inGame = true;
+                break;
             }
         }
+        if($inGame){
+            $sender->sendMessage(TextFormat::RED . "You can't spectate, you are in game!");
+            return true;
+        }
+        if($this->getMain()->arenas[strtolower($args[0])]->getPlayerManager()->isInArena($sender)){
+            $sender->sendMessage(TextFormat::RED . "You are already in that arena");
+            return true;
+        }
+        $this->getMain()->arenas[strtolower($args[0])]->getPlayerHandler()->spectatePlayer($sender);
         return true;
     }
 }
