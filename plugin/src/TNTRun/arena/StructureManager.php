@@ -23,17 +23,6 @@ class StructureManager{
         $this->spawn = $data["spawn"];
     }
     
-    public function isInside(Position $pos){
-        return ($pos->getLevel()->getName() === $this->levelName and
-            $pos->x >= $this->pos1["x"] and
-            $pos->x <= $this->pos2["x"] and
-            $pos->z >= $this->pos1["z"] and
-            $pos->z <= $this->pos2["z"] and
-            $pos->y >= $this->floors[0] and
-            $pos->y <= $this->floors[count($this->floors) - 1] + 1
-        );
-    }
-    
     public function getPos1(){
         return $this->pos1;
     }
