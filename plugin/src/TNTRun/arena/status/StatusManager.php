@@ -50,4 +50,16 @@ class StatusManager{
         $this->regenerating = $status;
     }
 
+    public function toString(){
+        if($this->isEnabled())
+            return "Enabled";
+        if($this->isStarting())
+            return "Starting";
+        if($this->isRunning())
+            return "Running";
+        if($this->isRegenerating())
+            return "Regenerating";
+        return "UNKNOW";
+    }
+
 }

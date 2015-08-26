@@ -11,8 +11,10 @@ use TNTRun\Main;
 class SignHandler{
     /** @var Main */
     private $tntRun;
+    /** @var Config */
+    private $signs;
 
-    //private $test = [$var => ["arena" => "string", "direction" => "ofSign" ]];
+    //[$var => ["arena" => "string", "direction" => "ofSign", "n_players" => "number of players to start the game", "time" => "time limit for arena(seconds)" ]];
 
     public function __construct(Main $tntRun){
         $this->signs = new Config($tntRun->getDataFolder()."/resources", Config::YAML);
@@ -20,12 +22,26 @@ class SignHandler{
     }
 
     public function newSign(Position $pos, array $data){
+        $this->signs->set($this->posToString($pos), $data);
+        $this->signs->save();
+
+        $this->spawnSign($pos, $data);
+    }
+
+    public function removeSign(Position $pos){
+        $this->signs->remove($this->posToString($pos));
+        $this->signs->save();
     }
 
     public function touchSign(Player $player){
-        $sign = $this->getSign($player->getPosition());
-        if(!$sign)
+        if(!$this->isExists($player->getPosition())) {
             return;
+        }
+        //TODO
+    }
+
+    public function isExists(Position $pos){
+        return $this->signs->exists($this->posToString($pos));
     }
 
     private function getSign(Position $pos){
@@ -54,16 +70,12 @@ class SignHandler{
             }
         }
 
-        if(isset($this->tntRun->arenas[$get["name"]])){
-            $arena = $this->tntRun->arenas[$get["name"]];
+        if(isset($this->tntRun->arenas[$get["arena"]])){
+            $arena = $this->tntRun->arenas[$get["arena"]];
 
-            $status = "";
-            $players = "";
-
-            $lines = ["[TNT Run]", TextFormat::ITALIC.$get["arena"], TextFormat::DARK_GREEN.$status, $players];
+            $lines = ["[TNT Run]", TextFormat::ITALIC.$get["arena"], TextFormat::DARK_GREEN.$arena->getStatusManager()->toString(), count($arena->getPlayerManager()->getAllPlayers())."/".$get["n_players"]];
         }else
             $lines = ["[TNT Run]", TextFormat::RED."Arena", $get["arena"], TextFormat::RED."Not loaded"];
-
 
         $tile = $pos->getLevel()->getTile($pos);
         if($tile instanceof Sign){
@@ -71,12 +83,17 @@ class SignHandler{
         }
     }
 
-    public function reload(){
-        if(count($this->signs) <= 0)
+    public function reload(Position $pos = false){
+        if(count($this->signs) <= 0) {
             return false;
+        }
+        if($pos){
+            $this->spawnSign($pos);
+            return;
+        }
 
         foreach($this->signs->getAll() as $var => $c){
-
+            $this->spawnSign($this->posFromString($var), $c);
         }
     }
 
