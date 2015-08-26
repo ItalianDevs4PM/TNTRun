@@ -17,7 +17,7 @@ class SignHandler{
     //[$var => ["arena" => "string", "direction" => "ofSign", "n_players" => "number of players to start the game", "time" => "time limit for arena(seconds)" ]];
 
     public function __construct(Main $tntRun){
-        $this->signs = new Config($tntRun->getDataFolder()."/resources", Config::YAML);
+        $this->signs = new Config($tntRun->getDataFolder()."/resources/signs.yml", Config::YAML);
         $this->reload();
     }
 
