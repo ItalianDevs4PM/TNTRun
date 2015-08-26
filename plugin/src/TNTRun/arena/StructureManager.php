@@ -10,7 +10,7 @@ class StructureManager{
     /** @var  Main */
     private $tntRun;
     /** @var array */
-    private $pos1, $pos2, $floors, $spawn, $x, $y, $z;
+    private $pos1, $pos2, $floors, $spawn;
     
     public function __construct(Main $tntRun, array $data){
         $this->tntRun = $tntRun;
