@@ -31,7 +31,7 @@ class EventListener implements Listener{
             if($tile instanceof Sign){
                 if(strtolower(TextFormat::clean($tile->getText()[0])) === "[tntrun]"){
                     //todo: handle join
-                    //dvdxbv test
+                    //dvdxbv test1
                 }
             }
         }
