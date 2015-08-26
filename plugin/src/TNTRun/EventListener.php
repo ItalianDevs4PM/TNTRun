@@ -6,6 +6,7 @@ use pocketmine\block\Block;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerInteractEvent;
+use pocketmine\event\player\PlayerJoinEvent;
 use pocketmine\event\player\PlayerMoveEvent;
 use pocketmine\math\Vector3;
 use pocketmine\tile\Sign;
@@ -17,6 +18,7 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerKickEvent;
 
 class EventListener implements Listener{
+    /** @var Main */
     private $tntRun;
 
     public function __construct(Main $tntRun){
@@ -94,4 +96,7 @@ class EventListener implements Listener{
         }  
     }
 
+    public function onJoin(PlayerJoinEvent $event){
+        $this->tntRun->getStats()->register($event->getPlayer()->getName());
+    }
 }
