@@ -17,7 +17,6 @@ use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\event\player\PlayerKickEvent;
 
 class EventListener implements Listener{
-    /** @var type */
     private $tntRun;
 
     public function __construct(Main $tntRun){
@@ -50,8 +49,8 @@ class EventListener implements Listener{
     
     public function onDeath(PlayerDeathEvent $event){
         foreach($this->tntRun->arenas as $arena){
-            if($arena->getPlayerManager()->isPlaying($event->getPlayer())){
-                $arena->getPlayerHandler()->leavePlayer($event->getPlayer());
+            if($arena->getPlayerManager()->isPlaying($event->getEntity())){
+                $arena->getPlayerHandler()->leavePlayer($event->getEntity());
                 return;
             }
         }
