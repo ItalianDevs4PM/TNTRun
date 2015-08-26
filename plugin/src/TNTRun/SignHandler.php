@@ -44,13 +44,6 @@ class SignHandler{
         return $this->signs->exists($this->posToString($pos));
     }
 
-    private function getSign(Position $pos){
-        $pos = $this->posToString($pos);
-        if(!$this->signs->exists($pos))
-            return false;
-        return $this->signs->get($pos);
-    }
-
     private function spawnSign(Position $pos, $get = false){
         if(!$get || !isset($get))
             $get = $this->signs->get($this->posFromString($pos));

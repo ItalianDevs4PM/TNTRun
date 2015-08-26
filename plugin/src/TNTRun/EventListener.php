@@ -58,7 +58,7 @@ class EventListener implements Listener{
     public function onBreak(BlockBreakEvent $event){
         if($event->getBlock()->getId() === Block::SIGN_POST || $event->getBlock()->getId() === Block::WALL_SIGN){
             if($this->tntRun->getSign()->isExists($event->getBlock())){
-                if($event->getPlayer()->hasPermission("tntrun.breakSign")){
+                if($event->getPlayer()->hasPermission("tntrun.create")){
                     $this->tntRun->getSign()->removeSign($event->getBlock());
                 }else{
                     $event->getPlayer()->sendMessage(TextFormat::RED . "You don't have permission to use this command!");
@@ -122,6 +122,8 @@ class EventListener implements Listener{
         if(str_replace([" ", "[", "]", "/"], "", strtolower(trim($line[0]))) != "tntrun"){
             return;
         }
+        if(!$event->getPlayer()->hasPermission("tntrun.create"))
+            return;
         if(!is_numeric($line[2])){
             $error[] = "<Number_of_players> is not numeric";
         }else{
