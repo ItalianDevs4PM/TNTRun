@@ -16,6 +16,8 @@ class Main extends PluginBase{
     /** @var Arena[] */
     public $arenas = [];
     public $selection = [];
+    /** @var SignHandler */
+    private $signHandler;
 
     public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
@@ -33,7 +35,12 @@ class Main extends PluginBase{
                 $this->stats = new SQLiteStatsProvider($this);
                 break;
         }
+        $this->signHandler = new SignHandler($this);
         $this->loadArenas();
+    }
+
+    public function getSign(){
+        return $this->signHandler;
     }
 
     public function getStats(){

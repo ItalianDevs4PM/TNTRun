@@ -26,14 +26,8 @@ class EventListener implements Listener{
     }
 
     public function onTouch(PlayerInteractEvent $event){
-        if($event->getBlock()->getId() === Block::SIGN_POST or $event->getBlock()->getId() === Block::WALL_SIGN){
-            $tile = $event->getBlock()->getLevel()->getTile($event->getBlock());
-            if($tile instanceof Sign){
-                if(strtolower(TextFormat::clean($tile->getText()[0])) === "[tntrun]"){
-                    //todo: handle join
-
-                }
-            }
+        if($event->getBlock()->getId() === Block::SIGN_POST || $event->getBlock()->getId() === Block::WALL_SIGN){
+            $this->tntRun->getSign()->touchSign($event->getPlayer());
         }
     }
     
