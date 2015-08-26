@@ -16,15 +16,15 @@ $config['show_previewlist'] = true;
 //Number of users to show on the preview list
 $config['previewlist_users'] = 15;
 //Database provider (0 = MySQL, 1 = SQLite3)
-$config["db_provider"] = 0;
+$config['db_provider'] = 0;
 //Database host of TNTRun plugin data
-$config["db_host"] = "host";
+$config['db_host'] = "host";
 //Database port (default 3306)
-$config["db_port"] = 3306;
+$config['db_port'] = 3306;
 //Database username
-$config["db_username"] = "username";
+$config['db_username'] = "username";
 //Database password (you can leave it blank if your database doesn't need password)
-$config["db_password"] = "";
+$config['db_password'] = "";
 //Database TNTRun database (it must be the one where you stored your TNTRun plugin data)
-$config["db_database"] = "tntrun";
+$config['db_database'] = "tntrun";
 ?>
