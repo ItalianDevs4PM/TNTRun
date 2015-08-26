@@ -10,7 +10,7 @@ class StructureManager{
     /** @var  Main */
     private $tntRun;
     /** @var array */
-    private $pos1, $pos2, $floors, $spawn;   
+    private $pos1, $pos2, $floors, $spawn, $x, $y, $z;
     
     public function __construct(Main $tntRun, array $data){
         $this->tntRun = $tntRun;
@@ -62,4 +62,9 @@ class StructureManager{
         return new Position($this->spawn["x"], $this->spawn["y"], $this->spawn["z"], $this->tntRun->getServer()->getLevelByName($this->levelName));
     }
 
+    public function setSpawn($x, $y, $z){
+        $this->spawn["x"] = $x;
+        $this->spawn["y"] = $y;
+        $this->spawn["z"] = $z;
+    }
 }
