@@ -4,7 +4,6 @@ namespace TNTRun;
 
 use pocketmine\utils\TextFormat;
 use pocketmine\plugin\PluginBase;
-use pocketmine\event\Listener;
 use TNTRun\arena\Arena;
 use TNTRun\commands\TNTRunCommand;
 use TNTRun\stats\MySQLStatsProvider;
