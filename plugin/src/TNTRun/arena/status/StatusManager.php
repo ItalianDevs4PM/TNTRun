@@ -32,6 +32,8 @@ class StatusManager{
     }
     
     public function setStarting($status = true){
+        $this->regenerating = false;
+        $this->running = false;
         $this->starting = $status;
         $this->update();
     }
@@ -41,6 +43,8 @@ class StatusManager{
     }
     
     public function setRunning($status = true){
+        $this->starting = false;
+        $this->regenerating = false;
         $this->running = $status;
         $this->update();
     }
@@ -51,6 +55,8 @@ class StatusManager{
     
     public function setRegenerating($status = true){
         $this->regenerating = $status;
+        $this->running = false;
+        $this->starting = false;
         $this->update();
     }
 
@@ -59,8 +65,8 @@ class StatusManager{
     }
 
     public function toString(){
-        if($this->isEnabled())
-            return "Enabled";
+        //if($this->isEnabled())
+            //return "Enabled";
         if($this->isStarting())
             return "Starting";
         if($this->isRunning())

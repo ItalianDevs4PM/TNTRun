@@ -5,7 +5,7 @@ use TNTRun\arena\Arena;
 use pocketmine\Player;
 
 class PlayersManager{
-    
+    /** @var Arena */
     private $arena;
     /** @var Player[] */
     private $players, $spectators;

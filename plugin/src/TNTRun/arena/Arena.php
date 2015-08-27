@@ -8,7 +8,6 @@ use TNTRun\arena\status\StatusManager;
 use TNTRun\Main;
 
 class Arena{
-
     /** @var string */
     private $name;
     /** @var Main */

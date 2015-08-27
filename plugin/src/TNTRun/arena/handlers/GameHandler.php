@@ -31,12 +31,24 @@ class GameHandler{
     
     public function runArenaCountDown(){  
         $this->countDownSeconds--;
-        if($this->countDownSeconds > 0){
-            foreach($this->arena->getPlayerManager()->getAllPlayers() as $p){
-                $p->sendMessage("Match starting in ".$this->countDownSeconds);
+        if($this->arena->getStatusManager()->isStarting()){
+            if($this->countDownSeconds > 0) {
+                foreach($this->arena->getPlayerManager()->getAllPlayers() as $p) {
+                    $p->sendMessage("Match starting in " . $this->countDownSeconds);
+                }
+            }else{
+                if(count($this->arena->getPlayerManager()->getAllPlayers()) < $this->tntRun->getConfig()->get("min-players")) {
+                    $this->stopArenaCountDown();
+                }else{
+                    $this->arena->getStatusManager()->setRunning();
+                    //TODO
+                    $this->countDownSeconds = $this->tntRun->getConfig()->get("TODO");
+                }
             }
         }else{
-            $this->stopArenaCountDown();
+            foreach($this->arena->getPlayerManager()->getAllPlayers() as $player) {
+                $player->sendMessage("The match will end in " . $this->countDownSeconds);
+            }
         }
     }
     
@@ -46,8 +58,9 @@ class GameHandler{
             $this->startArena();
             $this->arena->getStatusManager()->setStarting(false);
         }else{
-            foreach($this->arena->getPlayerManager()->getAllPlayers() as $p){
-                $p->sendMessage("There aren't enough players to begin the match");
+            foreach($this->arena->getPlayerManager()->getAllPlayers() as $player){
+                $player->sendMessage("There aren't enough players to begin the match");
+                $this->arena->getPlayerHandler()->leavePlayer($player);
             }
             $this->startArenaCountDown();
         }
@@ -55,12 +68,17 @@ class GameHandler{
     
     public function startArena(){
         $this->arena->getStatusManager()->setRunning();
-        //todo
+        foreach($this->arena->getPlayerManager()->getAllPlayers() as $player) {
+            $player->sendMessage("The match is started!");
+        }
     }
     
     public function stopArena(){
-        //todo
-        $this->arena->getStatusManager()->setRunning(false);
+        foreach($this->arena->getPlayerManager()->getAllPlayers() as $player){
+            $this->arena->getPlayerHandler()->leavePlayer($player);
+        }
+
+        $this->arena->getStatusManager()->setRegenerating();
         $this->startArenaRegen();
     }
     
@@ -76,7 +94,7 @@ class GameHandler{
                 $level), 10
             );
         }
-        $this->arena->getStatusManager()->setRegenerating(false);
+        $this->arena->getStatusManager()->setRunning();
     }
     
     public function startEnding(Player $player){
