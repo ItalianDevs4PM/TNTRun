@@ -37,7 +37,11 @@ class Arena{
 
         $this->gameHandler->startArenaRegen();
     }
-    
+
+    public function getMain(){
+        return $this->tntRun;
+    }
+
     public function getName(){
         return $this->name;
     }

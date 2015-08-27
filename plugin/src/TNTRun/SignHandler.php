@@ -6,6 +6,7 @@ use pocketmine\level\Position;
 use pocketmine\Player;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
+use TNTRun\arena\Arena;
 use TNTRun\Main;
 
 class SignHandler{
@@ -76,17 +77,26 @@ class SignHandler{
         }
     }
 
-    public function reload(Position $pos = false){
+    public function reload($pos = false){
         if(count($this->signs->getAll()) <= 0) {
             return false;
         }
-        if($pos){
+        if($pos && $pos instanceof Position){
             $this->spawnSign($pos);
             return;
         }
 
         foreach($this->signs->getAll() as $var => $c){
             $this->spawnSign($this->posToString($var), $c);
+        }
+    }
+
+    public function reloadSign(Arena $arena){
+        foreach($this->signs->getAll() as $var => $c){
+            if($c["arena"] === $arena->getName()){
+                $this->spawnSign($this->posFromString($var), $c);
+                break;
+            }
         }
     }
 

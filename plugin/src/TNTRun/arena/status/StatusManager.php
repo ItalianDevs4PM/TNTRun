@@ -20,6 +20,7 @@ class StatusManager{
     
     public function enableArena(){
         $this->enabled = true;
+        $this->update();
     }
     
     public function disableArena(){
@@ -32,6 +33,7 @@ class StatusManager{
     
     public function setStarting($status = true){
         $this->starting = $status;
+        $this->update();
     }
     
     public function isRunning(){
@@ -40,6 +42,7 @@ class StatusManager{
     
     public function setRunning($status = true){
         $this->running = $status;
+        $this->update();
     }
     
     public function isRegenerating(){
@@ -48,6 +51,11 @@ class StatusManager{
     
     public function setRegenerating($status = true){
         $this->regenerating = $status;
+        $this->update();
+    }
+
+    private function update(){
+        $this->arena->getMain()->getSign()->reloadSign($this->arena);
     }
 
     public function toString(){
