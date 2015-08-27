@@ -129,6 +129,7 @@ class SignHandler{
 
     private function posFromString($pos){
         $e = explode(":", $pos);
-        return new Position($e[0], $e[1], $e[2], str_replace("%", " ", $e[3]));
+        $level = $this->BlockShop->getServer()->getLevelByName(str_replace("%", " ", $e[3]));
+        return new Position($e[0], $e[1], $e[2], $level);
     }
 }
