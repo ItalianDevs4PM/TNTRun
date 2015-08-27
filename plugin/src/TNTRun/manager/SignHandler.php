@@ -1,6 +1,6 @@
 <?php
 
-namespace TNTRun;
+namespace TNTRun\manager;
 
 use pocketmine\block\Block;
 use pocketmine\item\Item;

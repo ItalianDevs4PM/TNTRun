@@ -6,6 +6,8 @@ use pocketmine\utils\TextFormat;
 use pocketmine\plugin\PluginBase;
 use TNTRun\arena\Arena;
 use TNTRun\commands\TNTRunCommand;
+use TNTRun\manager\MoneyManager;
+use TNTRun\manager\SignHandler;
 use TNTRun\stats\MySQLStatsProvider;
 use TNTRun\stats\SQLiteStatsProvider;
 
@@ -20,6 +22,8 @@ class Main extends PluginBase{
     private $signHandler;
     /** @var PlayerData */
     private $playerData;
+    /** @var MoneyManager */
+    private $moneyManager;
 
     public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
@@ -39,7 +43,12 @@ class Main extends PluginBase{
         }
         $this->signHandler = new SignHandler($this);
         $this->playerData = new PlayerData($this);
+        $this->moneyManager = new MoneyManager($this);
         $this->loadArenas();
+    }
+
+    public function getMoneyManager(){
+        return $this->moneyManager;
     }
 
     public function getPlayerData(){
