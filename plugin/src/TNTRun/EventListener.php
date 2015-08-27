@@ -28,8 +28,7 @@ class EventListener implements Listener{
 
     public function onTouch(PlayerInteractEvent $event){
         if($event->getBlock()->getId() === Block::SIGN_POST || $event->getBlock()->getId() === Block::WALL_SIGN){
-            $this->tntRun->getSign()->touchSign($event->getPlayer());
-            $this->tntRun->getSign()->reload($event->getBlock());
+            $this->tntRun->getSign()->touchSign($event->getBlock(), $event->getPlayer());
         }
     }
     

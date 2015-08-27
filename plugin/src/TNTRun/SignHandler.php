@@ -36,11 +36,16 @@ class SignHandler{
         $this->signs->save();
     }
 
-    public function touchSign(Player $player){
-        if(!$this->isExists($player->getPosition())) {
+    public function touchSign(Position $pos, Player $player){
+        if(!$this->isExists($pos)) {
             return;
         }
-        //TODO
+        $arena = $this->getSign($pos)["arena"];
+        if(!$this->tntRun->arenas[$arena]->getPlayerHandler()->canJoin($player)){
+            $player->sendMessage("You can not join to this match");
+            return;
+        }
+        $this->tntRun->arenas[$arena]->getPlayerHandler()->spawnPlayer($player);
     }
 
     public function getSign($var){
