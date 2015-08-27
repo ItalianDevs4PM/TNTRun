@@ -41,6 +41,21 @@ class SignHandler{
         //TODO
     }
 
+    public function getSign($var){
+        if($var instanceof Position){
+            $pos = $this->posToString($var);
+            if($this->signs->exists($pos))
+                return $this->signs->get($pos);
+        }
+        if($var instanceof Arena){
+            foreach($this->signs->getAll() as $pos => $c){
+                if($c["arena"] == $var->getName())
+                    return $c;
+            }
+        }
+        return false;
+    }
+
     public function isExists(Position $pos){
         return $this->signs->exists($this->posToString($pos));
     }

@@ -41,13 +41,12 @@ class GameHandler{
                     $this->stopArenaCountDown();
                 }else{
                     $this->arena->getStatusManager()->setRunning();
-                    //TODO
-                    $this->countDownSeconds = $this->tntRun->getConfig()->get("TODO");
+                    $this->countDownSeconds = $this->tntRun->getSign()->getSign($this->arena)["time"]*2;
                 }
             }
         }else{
             foreach($this->arena->getPlayerManager()->getAllPlayers() as $player) {
-                $player->sendMessage("The match will end in " . $this->countDownSeconds);
+                $player->sendMessage("The match will end in " . $this->countDownSeconds/2);
             }
         }
     }
@@ -71,6 +70,7 @@ class GameHandler{
         foreach($this->arena->getPlayerManager()->getAllPlayers() as $player) {
             $player->sendMessage("The match is started!");
         }
+        $this->countDownTaskId = $this->tntRun->getServer()->getScheduler()->scheduleRepeatingTask(new CountDownTask($this->tntRun, $this->arena), 20*30)->getTaskId();
     }
     
     public function stopArena(){
