@@ -6,7 +6,6 @@ use TNTRun\Main;
 use pocketmine\Player;
 
 class PlayerHandler{
-
     /** @var Main */
     private $tntRun;
     /** @var Arena */
@@ -18,6 +17,8 @@ class PlayerHandler{
     }
     
     public function spawnPlayer(Player $player){
+        $this->tntRun->getPlayerData()->storePlayer($player);
+
         $this->arena->getPlayerManager()->addPlayer($player);
         $player->teleport($this->arena->getStructureManager()->getSpawn());
         $player->sendMessage("You are now in arena: ".$this->arena->getName());
@@ -34,7 +35,7 @@ class PlayerHandler{
         $this->arena->getPlayerManager()->removePlayer($player);
         if($player->isOnline()){
             $player->sendMessage("You left the arena ".$this->arena->getName());
-            $player->teleport($this->tntRun->getLobby());
+            $this->tntRun->getPlayerData()->restorePlayer($player);
         }
         if($this->arena->getPlayerManager()->getPlayersCount() === 1 and $this->arena->getStatusManager()->isRunning()){
             $this->arena->getGameHandler()->stopArena();
@@ -45,7 +46,7 @@ class PlayerHandler{
         $this->arena->getPlayerManager()->removeSpectator($player);
         if($player->isOnline()){
             $player->sendMessage("You are no longer spectating the arena ".$this->arena->getName());
-            $player->teleport($this->tntRun->getLobby());
+            $this->tntRun->getPlayerData()->restorePlayer($player);
         }
     }
 

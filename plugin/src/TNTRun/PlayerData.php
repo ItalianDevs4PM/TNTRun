@@ -19,12 +19,16 @@ class PlayerData{
         $this->players[$player->getName()] = [
                 "inventory" => $player->getInventory(),
                 "armor" => $player->getInventory()->getArmorContents(),
-                "spawn" => $player->getPosition()
+                "spawn" => $player->getPosition(),
+                "gamemode" => $player->getGamemode()
             ];
+        $player->setGamemode(0);
+        $player->getInventory()->clearAll();
     }
 
     public function restorePlayer(Player $player){
         $get = $this->players[$player->getName()];
+        $player->setGamemode($get["gamemode"]);
         $player->getInventory()->addItem($get["inventory"]);
         $player->getInventory()->setArmorContents($get["armor"]);
         $player->teleport($get["spawn"]);

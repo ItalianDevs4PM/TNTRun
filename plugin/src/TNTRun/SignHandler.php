@@ -77,7 +77,7 @@ class SignHandler{
     }
 
     public function reload(Position $pos = false){
-        if(count($this->signs) <= 0) {
+        if(count($this->signs->getAll()) <= 0) {
             return false;
         }
         if($pos){
@@ -92,13 +92,11 @@ class SignHandler{
 
     private function posToString(Position $pos){
         $pos->round();
-        $level = str_replace(" ", "%", $pos->getLevel());
-        return $pos->x.":".$pos->y.":".$pos->z.":".$level;
+        return $pos->x.":".$pos->y.":".$pos->z.":".str_replace(" ", "%", $pos->getLevel());
     }
 
     private function posFromString($pos){
         $e = explode(":", $pos);
-        $level = str_replace("%", " ", $e[3]);
-        return new Position($e[0], $e[1], $e[2], $level);
+        return new Position($e[0], $e[1], $e[2], str_replace("%", " ", $e[3]));
     }
 }

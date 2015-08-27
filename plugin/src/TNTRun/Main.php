@@ -18,6 +18,8 @@ class Main extends PluginBase{
     public $selection = [];
     /** @var SignHandler */
     private $signHandler;
+    /** @var PlayerData */
+    private $playerData;
 
     public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
@@ -36,7 +38,12 @@ class Main extends PluginBase{
                 break;
         }
         $this->signHandler = new SignHandler($this);
+        $this->playerData = new PlayerData($this);
         $this->loadArenas();
+    }
+
+    public function getPlayerData(){
+        return $this->playerData;
     }
 
     public function getSign(){

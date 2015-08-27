@@ -64,10 +64,6 @@ class GameHandler{
         $this->startArenaRegen();
     }
     
-    public function handlePlayer(Player $player){
-        
-    }
-    
     public function startArenaRegen(){
         $this->arena->getStatusManager()->setRegenerating();
         $level = $this->tntRun->getServer()->getLevelByName($this->arena->getStructureManager()->getLevelName());
