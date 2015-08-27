@@ -124,7 +124,7 @@ class SignHandler{
 
     private function posToString(Position $pos){
         $pos->round();
-        return $pos->x.":".$pos->y.":".$pos->z.":".str_replace(" ", "%", $pos->getLevel());
+        return $pos->x.":".$pos->y.":".$pos->z.":".str_replace(" ", "%", $pos->getLevel()->getName());
     }
 
     private function posFromString($pos){
