@@ -48,7 +48,7 @@
 <html lang="en"><head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width">
-		<title><?php echo $title?></title>
+		<title><?php echo $title;?></title>
 		<!-- jQuery -->
 		<script src="js/jquery.min.js"></script>
 		<!-- Include xWeb js -->
