@@ -2,12 +2,14 @@
 
 namespace TNTRun;
 
+use pocketmine\block\Block;
+use pocketmine\item\Item;
 use pocketmine\level\Position;
 use pocketmine\Player;
+use pocketmine\tile\Sign;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
 use TNTRun\arena\Arena;
-use TNTRun\Main;
 
 class SignHandler{
     /** @var Main */
@@ -64,16 +66,16 @@ class SignHandler{
         if(!$get || !is_array($get))
             $get = $this->signs->get($this->posToString($pos));
 
-        if($pos->level->getBlockIdAt($pos->x, $pos->y, $pos->z) != Item::SIGN_POST && $pos->level->getBlockIdAt($pos->x, $pos->y, $pos->z) != Item::WALL_SIGN){
-            if($pos->level->getBlockIdAt($pos->x, $pos->y - 1, $pos->z) != Item::AIR && $pos->level->getBlockIdAt($pos->x, $pos->y - 1, $pos->z) != Item::WALL_SIGN)
+        if($pos->level->getBlockIdAt($pos->x, $pos->y, $pos->z) !== Item::SIGN_POST && $pos->level->getBlockIdAt($pos->x, $pos->y, $pos->z) !== Item::WALL_SIGN){
+            if($pos->level->getBlockIdAt($pos->x, $pos->y - 1, $pos->z) !== Item::AIR && $pos->level->getBlockIdAt($pos->x, $pos->y - 1, $pos->z) !== Item::WALL_SIGN)
                 $pos->level->setBlock($pos, Block::get(Item::SIGN_POST, $get["direction"]), true, true);
             else{
                 $direction = 3;
-                if($pos->level->getBlockIdAt($pos->x - 1 , $pos->y, $pos->z) != Item::AIR)
+                if($pos->level->getBlockIdAt($pos->x - 1 , $pos->y, $pos->z) !== Item::AIR)
                     $direction = 5;
-                elseif($pos->level->getBlockIdAt($pos->x + 1 , $pos->y, $pos->z) != Item::AIR)
+                elseif($pos->level->getBlockIdAt($pos->x + 1 , $pos->y, $pos->z) !== Item::AIR)
                     $direction = 4;
-                elseif($pos->level->getBlockIdAt($pos->x , $pos->y, $pos->z + 1) != Item::AIR)
+                elseif($pos->level->getBlockIdAt($pos->x , $pos->y, $pos->z + 1) !== Item::AIR)
                     $direction = 2;
                 $pos->level->setBlock($pos, Block::get(Item::WALL_SIGN, $direction), true, true);
             }
