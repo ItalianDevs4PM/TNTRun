@@ -25,10 +25,15 @@ class PlayerHandler{
     }
     
     public function spectatePlayer(Player $player){
+        if($this->arena->getPlayerManager()->getPlayersCount() === 1 and $this->arena->getStatusManager()->isRunning()){
+            $this->arena->getGameHandler()->startEnding($player);
+        }
         $this->arena->getPlayerManager()->addSpectator($player);
         $player->teleport($this->arena->getStructureManager()->getSpawn());
         $player->setGamemode(Player::SPECTATOR);
         $player->sendMessage("You are now spectating in arena: ".$this->arena->getName());
+        $player->teleport($this->arena->getStructureManager()->getSpawn());
+
     }
     
     public function leavePlayer(Player $player){
@@ -50,4 +55,11 @@ class PlayerHandler{
         }
     }
 
+    public function canJoin(Player $player){
+        if($this->arena->getPlayerManager()->getPlayersCount() + 1 > $this->arena->getStructureManager()->getMaxPlayer())
+            return false;
+        if(!$this->arena->getStatusManager()->isStarting())
+            return false;
+        return true;
+    }
 }

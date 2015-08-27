@@ -6,11 +6,12 @@ use pocketmine\level\Position;
 use TNTRun\Main;
 
 class StructureManager{
-
     /** @var  Main */
     private $tntRun;
     /** @var array */
     private $pos1, $pos2, $floors, $spawn;
+    /** @var int */
+    private $minPlayer, $maxPlayer;
     
     public function __construct(Main $tntRun, array $data){
         $this->tntRun = $tntRun;
@@ -21,6 +22,8 @@ class StructureManager{
         sort($this->floors);
         $this->levelName = $data["levelName"];
         $this->spawn = $data["spawn"];
+        $this->minPlayer = $data["min_player"];
+        $this->maxPlayer = (isset($data["max_player"]) ? $data["max_player"] : $data["min_player"]);
     }
     
     public function getPos1(){
@@ -49,6 +52,14 @@ class StructureManager{
 
     public function getSpawn(){
         return new Position($this->spawn["x"], $this->spawn["y"], $this->spawn["z"], $this->tntRun->getServer()->getLevelByName($this->levelName));
+    }
+
+    public function getMaxPlayer(){
+        return $this->maxPlayer;
+    }
+
+    public function getMinPlayer(){
+        return $this->minPlayer;
     }
 
     public function setSpawn($x, $y, $z){

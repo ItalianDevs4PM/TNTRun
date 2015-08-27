@@ -37,14 +37,21 @@ class GameHandler{
                     $p->sendMessage("Match starting in " . $this->countDownSeconds);
                 }
             }else{
-                if(count($this->arena->getPlayerManager()->getAllPlayers()) < $this->tntRun->getConfig()->get("min-players")) {
+                if(count($this->arena->getPlayerManager()->getPlayers()) < $this->tntRun->getConfig()->get("min-players")) {
                     $this->stopArenaCountDown();
                 }else{
                     $this->arena->getStatusManager()->setRunning();
                     $this->countDownSeconds = $this->tntRun->getSign()->getSign($this->arena)["time"]*2;
+
                 }
             }
-        }else{
+        }
+        if($this->arena->getStatusManager()->isRunning()){
+            if($this->arena->getPlayerManager()->getPlayersCount() === 1){
+                $this->startEnding($this->arena->getPlayerManager()->getPlayers());
+                $this->stopArena();
+            }
+
             foreach($this->arena->getPlayerManager()->getAllPlayers() as $player) {
                 $player->sendMessage("The match will end in " . $this->countDownSeconds/2);
             }
@@ -55,7 +62,6 @@ class GameHandler{
         $this->tntRun->getServer()->getScheduler()->cancelTask($this->countDownTaskId);
         if($this->arena->getPlayerManager()->getPlayersCount() >= $this->tntRun->getConfig()->get("min-players")){
             $this->startArena();
-            $this->arena->getStatusManager()->setStarting(false);
         }else{
             foreach($this->arena->getPlayerManager()->getAllPlayers() as $player){
                 $player->sendMessage("There aren't enough players to begin the match");
@@ -69,6 +75,7 @@ class GameHandler{
         $this->arena->getStatusManager()->setRunning();
         foreach($this->arena->getPlayerManager()->getAllPlayers() as $player) {
             $player->sendMessage("The match is started!");
+            $this->tntRun->getStats()->addMatch($player->getName());
         }
         $this->countDownTaskId = $this->tntRun->getServer()->getScheduler()->scheduleRepeatingTask(new CountDownTask($this->tntRun, $this->arena), 20*30)->getTaskId();
     }
@@ -76,6 +83,7 @@ class GameHandler{
     public function stopArena(){
         foreach($this->arena->getPlayerManager()->getAllPlayers() as $player){
             $this->arena->getPlayerHandler()->leavePlayer($player);
+            $player->sendMessage("The match is finished.");
         }
 
         $this->arena->getStatusManager()->setRegenerating();
@@ -98,7 +106,9 @@ class GameHandler{
     }
     
     public function startEnding(Player $player){
-        
+        $this->tntRun->getStats()->addWin($player->getName());
+        $player->sendMessage("Congratulations you won the match!");
+        $this->stopArena();
     }
     
 }

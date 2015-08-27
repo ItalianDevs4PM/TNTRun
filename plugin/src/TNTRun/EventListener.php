@@ -87,7 +87,6 @@ class EventListener implements Listener{
         foreach($this->tntRun->arenas as $arena){
             if($arena->getPlayerManager()->isInArena($event->getPlayer())){
                 $arena->getPlayerManager()->removePlayer($event->getPlayer());
-                $arena->getPlayerManager()->removeSpectator($event->getPlayer());
                 return;
             }
         }        
@@ -97,7 +96,6 @@ class EventListener implements Listener{
         foreach($this->tntRun->arenas as $arena){
             if($arena->getPlayerManager()->isInArena($event->getPlayer())){
                 $arena->getPlayerManager()->removePlayer($event->getPlayer());
-                $arena->getPlayerManager()->removeSpectator($event->getPlayer());
                 return;
             }
         }  

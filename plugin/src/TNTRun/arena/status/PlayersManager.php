@@ -16,7 +16,7 @@ class PlayersManager{
     
     public function isInArena(Player $player){
         $player = strtolower($player->getName());
-        return isset($this->players[$player]) or isset($this->players[$player]);
+        return isset($this->players[$player]) or isset($this->spectators[$player]);
     }
     
     public function getPlayersCount(){
@@ -24,20 +24,25 @@ class PlayersManager{
     }
     
     public function getPlayers(){
-        return $this->players;
+        return array_values($this->players);
     }
 
-    /**
-     * @return Player[]
-     */
     public function getAllPlayers(){
-        return array_merge($this->players, $this->spectators);
+        return array_merge(array_values($this->players), array_values($this->spectators));
     }
     
     public function addPlayer(Player $player){
+        foreach($this->players as $name => $plr){
+            $plr->sendMessage("The player ".$player->getName()." has joined the match!");
+        }
         $this->players[strtolower($player->getName())] = $player;
+        $this->update();
     }
-    
+
+    private function update(){
+        $this->arena->getMain()->getSign()->reloadSign($this->arena);
+    }
+
     public function removePlayer(Player $player){
         $player = strtolower($player->getName());
         if(isset($this->players[$player])){
@@ -46,6 +51,7 @@ class PlayersManager{
         if(isset($this->spectators[$player])){
             unset($this->spectators[$player]);
         }
+        $this->update();
     }
 
     public function isPlaying(Player $player){
@@ -57,18 +63,20 @@ class PlayersManager{
     }
     
     public function addSpectator(Player $player){
+        unset($this->players[strtolower($player->getName())]);
         $this->spectators[strtolower($player->getName())] = $player;
+        $this->update();
     }
     
     public function removeSpectator(Player $player){
         if(isset($this->spectators[strtolower($player->getName())])){
             unset($this->spectators[strtolower($player->getName())]);
         }
+        $this->update();
     }
     
     public function getSpectators(){
-        return $this->spectators;
+        return array_values($this->spectators);
     }
-
 }
 
