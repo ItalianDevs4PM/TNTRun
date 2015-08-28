@@ -13,7 +13,7 @@ use TNTRun\stats\SQLiteStatsProvider;
 
 class Main extends PluginBase{
 
-    /** @var \TNTRun\stats\StatsProvider */
+    /** @var stats\StatsProvider */
     private $stats;
     /** @var Arena[] */
     public $arenas = [];
@@ -24,6 +24,8 @@ class Main extends PluginBase{
     private $playerData;
     /** @var MoneyManager */
     private $moneyManager;
+    /** @var  manager\MessageManager */
+    private $messageManager;
 
     public function onEnable(){
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
@@ -44,7 +46,12 @@ class Main extends PluginBase{
         $this->signHandler = new SignHandler($this);
         $this->playerData = new PlayerData($this);
         $this->moneyManager = new MoneyManager($this);
+        $this->messageManager = new MessageManager($this);
         $this->loadArenas();
+    }
+
+    public function getMessageManager(){
+        return $this->messageManager();
     }
 
     public function getMoneyManager(){
