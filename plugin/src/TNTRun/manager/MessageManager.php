@@ -24,7 +24,7 @@ class MessageManager{
 
     public function __construct(Main $tntRun){
         $this->tntRun = $tntRun;
-        $this->messages = $this->parseMessages((new Config($tntRun->getDataResources()."messages.yml", Config::YAML))->getAll());
+        $this->messages = $this->parseMessages((new Config($tntRun->getDataFolder()."/resources/messages.yml", Config::YAML))->getAll());
     }
 
     private function parseMessages(array $messages){
