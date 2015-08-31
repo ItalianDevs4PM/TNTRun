@@ -52,7 +52,7 @@ class Main extends PluginBase{
     }
 
     public function getMessageManager(){
-        return $this->messageManager();
+        return $this->messageManager;
     }
 
     public function getMoneyManager(){

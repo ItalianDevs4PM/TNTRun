@@ -17,9 +17,9 @@ class PlayerData{
 
     public function storePlayer(Player $player){
         $this->players[$player->getName()] = [
-                "inventory" => $player->getInventory(),
-                "armor" => $player->getInventory()->getArmorContents(),
-                "spawn" => $player->getPosition(),
+                "inventory" => serialize($player->getInventory()->getContents()),
+                "armor" => serialize($player->getInventory()->getArmorContents()),
+                "spawn" => serialize($player->getPosition()),
                 "gamemode" => $player->getGamemode()
             ];
         $player->setGamemode(0);
@@ -29,9 +29,9 @@ class PlayerData{
     public function restorePlayer(Player $player){
         $get = $this->players[$player->getName()];
         $player->setGamemode($get["gamemode"]);
-        $player->getInventory()->addItem($get["inventory"]);
-        $player->getInventory()->setArmorContents($get["armor"]);
-        $player->teleport($get["spawn"]);
+        $player->getInventory()->setContents(unserialize($get["inventory"]));
+        $player->getInventory()->setArmorContents(unserialize($get["armor"]));
+        $player->teleport(unserialize($get["spawn"]));
         unset($this->players[$player->getName()]);
     }
 }
