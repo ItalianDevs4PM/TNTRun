@@ -8,6 +8,8 @@ money-for-won: 10
 lobby: "world"
 #sqlite3 or mysql
 stats-provider: "sqlite3"
+
+money-reward: 0
 #only for mysql users
 mysql:
   host: "127.0.0.1"
