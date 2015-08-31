@@ -58,7 +58,7 @@ class MessageManager{
             }
             $player->sendMessage($this->tag.$message);
         }else {
-            Server::getInstance()->broadcastMessage($this->tag . TextFormat::RED . "The message '" . $message . "' does not found!");
+            $this->tntRun->getServer()->broadcastMessage($this->tag . TextFormat::RED . "The message '".$message."' does not found!");
         }
     }
 

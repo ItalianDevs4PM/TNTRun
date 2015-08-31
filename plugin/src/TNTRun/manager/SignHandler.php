@@ -10,6 +10,7 @@ use pocketmine\tile\Sign;
 use pocketmine\utils\Config;
 use pocketmine\utils\TextFormat;
 use TNTRun\arena\Arena;
+use TNTRun\Main;
 
 class SignHandler{
     /** @var Main */
@@ -101,15 +102,14 @@ class SignHandler{
 
     public function reload($pos = false){
         if(count($this->signs->getAll()) <= 0) {
-            return false;
+            return;
         }
         if($pos && $pos instanceof Position){
             $this->spawnSign($pos);
             return;
         }
-
         foreach($this->signs->getAll() as $var => $c){
-            $this->spawnSign($this->posToString($var), $c);
+            $this->spawnSign($this->posToString($var), $c); //fixme $var not a position
         }
     }
 
@@ -123,13 +123,13 @@ class SignHandler{
     }
 
     private function posToString(Position $pos){
-        $pos->round();
-        return $pos->x.":".$pos->y.":".$pos->z.":".str_replace(" ", "%", $pos->getLevel()->getName());
+        $rPos = $pos->round();
+        return $rPos->x.":".$rPos->y.":".$rPos->z.":".str_replace(" ", "%", $pos->getLevel()->getName());
     }
 
     private function posFromString($pos){
         $e = explode(":", $pos);
-        $level = $this->BlockShop->getServer()->getLevelByName(str_replace("%", " ", $e[3]));
+        $level = $this->tntRun->getServer()->getLevelByName(str_replace("%", " ", $e[3]));
         return new Position($e[0], $e[1], $e[2], $level);
     }
 }

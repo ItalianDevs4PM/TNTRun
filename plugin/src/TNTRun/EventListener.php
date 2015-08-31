@@ -101,7 +101,9 @@ class EventListener implements Listener{
     }
 
     public function onJoin(PlayerJoinEvent $event){
-        $this->tntRun->getStats()->register($event->getPlayer()->getName());
+        if(!$event->getPlayer()->hasPlayedBefore()){
+            $this->tntRun->getStats()->register($event->getPlayer()->getName());
+        }
     }
 
     /**
@@ -116,7 +118,7 @@ class EventListener implements Listener{
     public function signCreate(SignChangeEvent $event){
         $line = $event->getLines();
         $error = false;
-        if(str_replace([" ", "[", "]", "/"], "", strtolower(trim($line[0]))) != "tntrun"){
+        if(str_replace([" ", "[", "]", "/"], "", strtolower(trim($line[0]))) !== "tntrun"){
             return;
         }
         if(!$event->getPlayer()->hasPermission("tntrun.create"))
