@@ -12,7 +12,7 @@ class RewardSubCmd extends SubCmd{
     public function execute(CommandSender $sender, array $args){
         if(!isset($args[0]) || !is_numeric($args[0])){
             $sender->sendMessage(TextFormat::RED . "Please specify a valid value of money!");
-            return true;
+            return;
         }
         $this->getMain()->getConfig()->set("money-reward", $args[0]);
         $this->getMain()->getConfig()->save();

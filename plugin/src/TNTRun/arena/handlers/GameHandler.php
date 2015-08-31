@@ -107,6 +107,8 @@ class GameHandler{
     
     public function startEnding(Player $player){
         $this->tntRun->getStats()->addWin($player->getName());
+        if($this->tntRun->getConfig()->get("money-reward") > 0)
+            $this->tntRun->getMoneyManager()->addMoney($player->getName(), $this->tntRun->getConfig()->get("money-reward"));
         $player->sendMessage("Congratulations you won the match!");
         $this->stopArena();
     }

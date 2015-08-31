@@ -36,27 +36,6 @@ class MoneyManager{
     }
 
     /**
-     * @return string
-     */
-    public function getValue(){
-        if($this->PocketMoney) return "pm";
-        if($this->EconomyS) return "$";
-        if($this->MassiveEconomy) return $this->MassiveEconomy->getMoneySymbol();
-        return "?";
-    }
-
-    /**
-     * @param type $player
-     * @return int
-     */
-    public function getMoney($player){
-        if($this->PocketMoney) return $this->PocketMoney->getMoney($player);
-        if($this->EconomyS) return $this->EconomyS->myMoney($player);
-        if($this->MassiveEconomy) return $this->MassiveEconomy->getMoney($player);
-        return 0;
-    }
-
-    /**
      * @param type $player
      * @param type $value
      * @return boolean
@@ -68,14 +47,4 @@ class MoneyManager{
         return false;
     }
 
-    /**
-     * @param type $player
-     * @return boolean
-     */
-    public function isExists($player){
-        if($this->PocketMoney) return $this->PocketMoney->isRegistered($player);
-        elseif($this->EconomyS) return $this->EconomyS->accountExists($player);
-        elseif($this->MassiveEconomy) return $this->MassiveEconomy->isPlayerRegistered($player);
-        return false;
-    }
 }
