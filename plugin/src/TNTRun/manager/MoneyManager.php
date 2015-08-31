@@ -2,6 +2,7 @@
 namespace TNTRun\manager;
 
 use pocketmine\plugin\Plugin;
+use TNTRun\Main;
 
 class MoneyManager{
     /** @var Plugin */
@@ -36,8 +37,8 @@ class MoneyManager{
     }
 
     /**
-     * @param type $player
-     * @param type $value
+     * @param $player
+     * @param $value
      * @return boolean
      */
     public function addMoney($player, $value){

@@ -6,6 +6,7 @@ use pocketmine\utils\TextFormat;
 use pocketmine\plugin\PluginBase;
 use TNTRun\arena\Arena;
 use TNTRun\commands\TNTRunCommand;
+use TNTRun\manager\MessageManager;
 use TNTRun\manager\MoneyManager;
 use TNTRun\manager\SignHandler;
 use TNTRun\stats\MySQLStatsProvider;
