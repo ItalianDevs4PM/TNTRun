@@ -15,7 +15,6 @@ use pocketmine\utils\TextFormat;
 use TNTRun\tasks\UnsetBlockTask;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerQuitEvent;
-use pocketmine\event\player\PlayerKickEvent;
 
 class EventListener implements Listener{
     
@@ -89,15 +88,6 @@ class EventListener implements Listener{
                 return;
             }
         }        
-    }
-    
-    public function onKick(PlayerKickEvent $event){
-        foreach($this->tntRun->arenas as $arena){
-            if($arena->getPlayerManager()->isInArena($event->getPlayer())){
-                $arena->getPlayerManager()->removePlayer($event->getPlayer());
-                return;
-            }
-        }  
     }
 
     public function onJoin(PlayerJoinEvent $event){
