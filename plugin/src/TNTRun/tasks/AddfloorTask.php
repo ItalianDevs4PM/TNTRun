@@ -28,7 +28,7 @@ class AddfloorTask extends PluginTask{
                 $block = $this->tntRun->getConfig()->get("block-id");
                 $this->level->setBlock(new Vector3($x, $this->floor, $z), Block::get($block));
                 $blocks += 1;
-                if($blocks >= $this->blocks){
+                if($blocks === $this->blocks){
                     $this->getOwner()->getServer()->getScheduler()->scheduleDelayedTask($this, $this->interval);
                     return;
                 }

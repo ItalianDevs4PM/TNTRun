@@ -12,6 +12,7 @@ class LeaveSubCmd extends SubCmd{
     public function execute(CommandSender $sender, array $args){
         if(!($sender instanceof Player)){
             $sender->sendMessage(TextFormat::YELLOW . "Please use this command in game!");
+            return true;
         }
         foreach($this->getMain()->arenas as $arena){
             if($arena->getPlayerManager()->isInArena($sender)){
