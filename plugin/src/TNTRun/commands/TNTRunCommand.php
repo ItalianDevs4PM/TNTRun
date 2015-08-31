@@ -27,7 +27,7 @@ class TNTRunCommand extends Command implements PluginIdentifiableCommand{
             }
             $class = $obj->getBasename(".php"); //rimuove estensione .php
             $className = "\\".__NAMESPACE__."\\sub\\".$class;
-            $this->subCommands[strtolower(substr($class, 0, -6))] = new $className($this);
+            $this->subCommands[strtolower(substr($class, 0, -6))] = new $className($this->tntRun);
         }
     }
 
