@@ -123,13 +123,13 @@ class SignHandler{
     }
 
     private function posToString(Position $pos){
-        $rPos = $pos->round();
-        return $rPos->x.":".$rPos->y.":".$rPos->z.":".str_replace(" ", "%", $pos->getLevel()->getName());
+        $lv = $pos->getLevel();
+        $pos = $pos->round();
+        return $pos->x.":".$pos->y.":".$pos->z.":".str_replace(" ", "%", $lv->getName());
     }
 
     private function posFromString($pos){
         $e = explode(":", $pos);
-        $level = $this->tntRun->getServer()->getLevelByName(str_replace("%", " ", $e[3]));
-        return new Position($e[0], $e[1], $e[2], $level);
+        return new Position($e[0], $e[1], $e[2], $this->tntRun->getServer()->getLevelByName(str_replace("%", " ", $e[3])));
     }
 }
