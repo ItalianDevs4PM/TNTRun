@@ -27,6 +27,7 @@ class PlayersManager{
         return array_values($this->players);
     }
 
+    /** @return Player[] */
     public function getAllPlayers(){
         return array_merge(array_values($this->players), array_values($this->spectators));
     }

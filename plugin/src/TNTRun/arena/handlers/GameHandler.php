@@ -6,6 +6,7 @@ use TNTRun\Main;
 use pocketmine\Player;
 use TNTRun\tasks\AddfloorTask;
 use TNTRun\tasks\CountDownTask;
+use TNTRun\tasks\GameTask;
 
 class GameHandler{
 
@@ -17,6 +18,10 @@ class GameHandler{
     private $countDownTaskId;
     /** @var int */
     private $countDownSeconds;
+    /** @var int */
+    private $gameTaskId;
+    /** @var  int */
+    private $gameMinutes;
     
     public function __construct(Main $tntRun, Arena $arena){
         $this->tntRun = $tntRun;
@@ -37,23 +42,7 @@ class GameHandler{
                     $p->sendMessage("Match starting in " . $this->countDownSeconds);
                 }
             }else{
-                if(count($this->arena->getPlayerManager()->getPlayers()) < $this->tntRun->getConfig()->get("min-players")) {
-                    $this->stopArenaCountDown();
-                }else{
-                    $this->arena->getStatusManager()->setRunning();
-                    $this->countDownSeconds = $this->tntRun->getSign()->getSign($this->arena)["time"]*2;
-
-                }
-            }
-        }
-        if($this->arena->getStatusManager()->isRunning()){
-            if($this->arena->getPlayerManager()->getPlayersCount() === 1){
-                $this->startEnding($this->arena->getPlayerManager()->getPlayers());
-                $this->stopArena();
-            }
-
-            foreach($this->arena->getPlayerManager()->getAllPlayers() as $player) {
-                $player->sendMessage("The match will end in " . $this->countDownSeconds/2);
+                $this->stopArenaCountDown();
             }
         }
     }
@@ -65,7 +54,6 @@ class GameHandler{
         }else{
             foreach($this->arena->getPlayerManager()->getAllPlayers() as $player){
                 $player->sendMessage("There aren't enough players to begin the match");
-                $this->arena->getPlayerHandler()->leavePlayer($player);
             }
             $this->startArenaCountDown();
         }
@@ -73,20 +61,35 @@ class GameHandler{
     
     public function startArena(){
         $this->arena->getStatusManager()->setRunning();
+        $this->gameMinutes = $this->tntRun->getConfig()->get("game-minutes");
         foreach($this->arena->getPlayerManager()->getAllPlayers() as $player) {
             $player->sendMessage("The match is started!");
             $this->tntRun->getStats()->addMatch($player->getName());
         }
-        $this->countDownTaskId = $this->tntRun->getServer()->getScheduler()->scheduleRepeatingTask(new CountDownTask($this->tntRun, $this->arena), 20*30)->getTaskId();
+        $this->gameTaskId = $this->tntRun->getServer()->getScheduler()->scheduleDelayedRepeatingTask(new GameTask($this->tntRun, $this->arena), 1200, 1200)->getTaskId();
     }
-    
+
+    public function runGame(){
+        if($this->gameMinutes > 0){
+            foreach($this->arena->getPlayerManager()->getAllPlayers() as $player){
+                $player->sendMessage("The match will end in " . $this->gameMinutes);
+            }
+        }else{
+            $this->stopArena();
+        }
+    }
+
     public function stopArena(){
         foreach($this->arena->getPlayerManager()->getAllPlayers() as $player){
             $this->arena->getPlayerHandler()->leavePlayer($player);
             $player->sendMessage("The match is finished.");
+            $this->tntRun->getStats()->addWin($player->getName());
+            if($this->tntRun->getConfig()->get("money-reward") > 0){
+                $this->tntRun->getMoneyManager()->addMoney($player->getName(), $this->tntRun->getConfig()->get("money-reward"));
+            }
+            $player->sendMessage("Congratulations you won the match!");
         }
-
-        $this->arena->getStatusManager()->setRegenerating();
+        $this->arena->getStatusManager()->setRunning(false);
         $this->startArenaRegen();
     }
     
@@ -102,15 +105,7 @@ class GameHandler{
                 $level), 10
             );
         }
-        $this->arena->getStatusManager()->setRunning();
-    }
-    
-    public function startEnding(Player $player){
-        $this->tntRun->getStats()->addWin($player->getName());
-        if($this->tntRun->getConfig()->get("money-reward") > 0)
-            $this->tntRun->getMoneyManager()->addMoney($player->getName(), $this->tntRun->getConfig()->get("money-reward"));
-        $player->sendMessage("Congratulations you won the match!");
-        $this->stopArena();
+        $this->arena->getStatusManager()->setRegenerating(false);
     }
     
 }
