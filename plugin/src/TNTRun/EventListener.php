@@ -84,7 +84,11 @@ class EventListener implements Listener{
     public function onQuit(PlayerQuitEvent $event){
         foreach($this->tntRun->arenas as $arena){
             if($arena->getPlayerManager()->isInArena($event->getPlayer())){
-                $arena->getPlayerManager()->removePlayer($event->getPlayer());
+                if($arena->getPlayerManager()->isPlaying($event->getPlayer())){
+                    $arena->getPlayerHandler()->leavePlayer($event->getPlayer());
+                }else{
+                    $arena->getPlayerHandler()->leaveSpectator($event->getPlayer());
+                }
                 return;
             }
         }        

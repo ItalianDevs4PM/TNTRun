@@ -14,6 +14,16 @@ class LobbySubCmd extends SubCmd{
             $sender->sendMessage(TextFormat::YELLOW . "Please run this command in game!");
             return true;
         }
+        foreach($this->getMain()->arenas as $arena){
+            if($arena->getPlayerManager()->isInArena($sender)){
+                if($arena->getPlayerManager()->isPlaying($sender)){
+                    $arena->getPlayerHandler()->leavePlayer($sender);
+                }else{
+                    $arena->getPlayerHandler()->leaveSpectator($sender);
+                }
+                break;
+            }
+        }
         $level = $this->getMain()->getServer()->getLevelByName($this->getMain()->getConfig()->get("lobby"));
         if($level !== null){
             $sender->teleport($level->getSafeSpawn());

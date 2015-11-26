@@ -24,11 +24,14 @@ class PlayerHandler{
     }
     
     public function spectatePlayer(Player $player){
-        if($this->arena->getPlayerManager()->getPlayersCount() === 1 and $this->arena->getStatusManager()->isRunning()){
-            $this->arena->getGameHandler()->stopArena();
+        if($this->arena->getPlayerManager()->isPlaying($player)){
+            $this->arena->getPlayerManager()->removePlayer($player);
+            if($this->arena->getPlayerManager()->getPlayersCount() === 1 and $this->arena->getStatusManager()->isRunning()){
+                $this->arena->getGameHandler()->stopArena();
+            }
         }
-        $this->tntRun->getPlayerData()->storePlayer($player);
         $this->arena->getPlayerManager()->addSpectator($player);
+        $this->tntRun->getPlayerData()->storePlayer($player);
         $player->teleport($this->arena->getStructureManager()->getSpawn());
         $player->setGamemode(Player::SPECTATOR);
         $player->sendMessage("You are now spectating in arena: ".$this->arena->getName());
