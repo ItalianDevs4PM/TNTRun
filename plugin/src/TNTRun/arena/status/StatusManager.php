@@ -8,23 +8,10 @@ class StatusManager{
     /** @var Arena */
     private $arena;
     /** @var bool */
-    private $enabled = false, $starting = false, $running = false, $regenerating = false;
+    private $starting = false, $running = false, $regenerating = false;
         
     public function __construct(Arena $arena){
         $this->arena = $arena;
-    }
-    
-    public function isEnabled(){
-        return $this->enabled;
-    }
-    
-    public function enableArena(){
-        $this->enabled = true;
-        $this->update();
-    }
-    
-    public function disableArena(){
-        $this->enabled = false;
     }
     
     public function isStarting(){

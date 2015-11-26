@@ -18,7 +18,6 @@ class PlayerHandler{
     
     public function spawnPlayer(Player $player){
         $this->tntRun->getPlayerData()->storePlayer($player);
-
         $this->arena->getPlayerManager()->addPlayer($player);
         $player->teleport($this->arena->getStructureManager()->getSpawn());
         $player->sendMessage("You are now in arena: ".$this->arena->getName());
@@ -26,14 +25,13 @@ class PlayerHandler{
     
     public function spectatePlayer(Player $player){
         if($this->arena->getPlayerManager()->getPlayersCount() === 1 and $this->arena->getStatusManager()->isRunning()){
-            $this->arena->getGameHandler()->startEnding($player);
+            $this->arena->getGameHandler()->stopArena();
         }
+        $this->tntRun->getPlayerData()->storePlayer($player);
         $this->arena->getPlayerManager()->addSpectator($player);
         $player->teleport($this->arena->getStructureManager()->getSpawn());
         $player->setGamemode(Player::SPECTATOR);
         $player->sendMessage("You are now spectating in arena: ".$this->arena->getName());
-        $player->teleport($this->arena->getStructureManager()->getSpawn());
-
     }
     
     public function leavePlayer(Player $player){
@@ -56,10 +54,6 @@ class PlayerHandler{
     }
 
     public function canJoin(Player $player){
-        if($this->arena->getPlayerManager()->getPlayersCount() + 1 > $this->arena->getStructureManager()->getMaxPlayer())
-            return false;
-        if(!$this->arena->getStatusManager()->isStarting())
-            return false;
-        return true;
+        return ($this->arena->getPlayerManager()->getPlayersCount() < $this->arena->getStructureManager()->getMaxPlayer()) and !$this->arena->getStatusManager()->isStarting() and !$this->arena->getStatusManager()->isRunning();
     }
 }

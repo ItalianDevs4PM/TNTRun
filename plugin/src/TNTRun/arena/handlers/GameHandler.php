@@ -70,6 +70,7 @@ class GameHandler{
     }
 
     public function runGame(){
+        $this->gameMinutes--;
         if($this->gameMinutes > 0){
             foreach($this->arena->getPlayerManager()->getAllPlayers() as $player){
                 $player->sendMessage("The match will end in " . $this->gameMinutes);

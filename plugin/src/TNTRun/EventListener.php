@@ -96,7 +96,7 @@ class EventListener implements Listener{
         }
     }
 
-    /**
+    /*
      * For documentation
      * Lines for Sign
      * [TNT Run]
