@@ -98,6 +98,9 @@ class EventListener implements Listener{
         if(!$event->getPlayer()->hasPlayedBefore()){
             $this->tntRun->getStats()->register($event->getPlayer()->getName());
         }
+        if($this->tntRun->getConfig()->get("alwaysspawn") == true){
+            $event->getPlayer()->teleport($this->tntRun->getLobby());
+        }
     }
 
     /*

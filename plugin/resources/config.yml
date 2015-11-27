@@ -12,6 +12,8 @@ stats-provider: "sqlite3"
 countdown: 20
 #game minutes
 game-minutes: 5
+#true or false, teleport players at spawn when join
+alwaysspawn: true
 
 money-reward: 0
 #only for mysql users
