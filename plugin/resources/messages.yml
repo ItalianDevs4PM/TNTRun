@@ -1,0 +1,8 @@
+#Language and messages file
+prefix: "[TntRun] "
+
+#Translations
+
+game: #category
+  win: "Congratulations you won the match!"
+### TODO

@@ -2,7 +2,6 @@
 
 namespace TNTRun\manager;
 
-use pocketmine\command\ConsoleCommandSender;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\Config;
@@ -13,8 +12,8 @@ class MessageManager{
     /** @var Main */
     private $tntRun;
     /** @var string */
-    private $tag = TextFormat::RED."[TNT Run] ".TextFormat::WHITE;
-    /** @var array */
+    private $tag;
+    /** @var Config */
     private $messages;
 
     /*
@@ -24,50 +23,50 @@ class MessageManager{
 
     public function __construct(Main $tntRun){
         $this->tntRun = $tntRun;
-        $this->messages = $this->parseMessages((new Config($tntRun->getDataFolder()."/resources/messages.yml", Config::YAML))->getAll());
+        $this->tntRun->saveResource("messages.yml");
+        $this->messages = new Config($this->tntRun->getDataFolder()."messages.yml", Config::YAML);
+        $this->tag = $this->messages->get("prefix");
     }
 
-    private function parseMessages(array $messages){
-        $result = [];
-        foreach($messages as $key => $value){
-            if(is_array($value)){
-                foreach($this->parseMessages($value) as $k => $v){
-                    $result[$key . "." . $k] = $v;
-                }
-            }else{
-                $result[$key] = $value;
-            }
+    public function translateAndFormat($key, ...$args){
+        $message = $this->messages->getNested($key, false);
+        if(!$message){
+            $this->tntRun->getServer()->getLogger()->warning("TntRun translation for ".$key." not found in messages.yml");
+            return "";
         }
-        return $result;
-    }
-
-    public function send($player, $message, $toReplace = false){
-        if(!($player instanceof Player) && !($player instanceof ConsoleCommandSender))
-            return;
-
-        if(isset($this->messages[$message])){
-            $message = $this->messages[$message];
-            if($toReplace){
-                if(is_array($toReplace)){
-                    foreach($toReplace as $index => $replace){
-                        $message = str_replace("%".$index."%", $replace, $message);
-                    }
-                }else{
-                    $message = str_replace("%1%", $toReplace, $message);
-                }
-            }
-            $player->sendMessage($this->tag.$message);
-        }else {
-            $this->tntRun->getServer()->broadcastMessage($this->tag . TextFormat::RED . "The message '".$message."' does not found!");
+        foreach($args as $k => $str){
+            $message = str_replace("%".$k, $str, $message);
         }
+        $message = $this->tag.$message;
+        return $this->translateColors($message);
     }
 
-    public function sendMessage(Player $player, $message){
-        $player->sendMessage($this->tag.$message);
-    }
+    public function translateColors($message, $escape = "&"){
+        $message = str_replace($escape."0", TextFormat::BLACK, $message);
+        $message = str_replace($escape."1", TextFormat::DARK_BLUE, $message);
+        $message = str_replace($escape."2", TextFormat::DARK_GREEN, $message);
+        $message = str_replace($escape."3", TextFormat::DARK_AQUA, $message);
+        $message = str_replace($escape."4", TextFormat::DARK_RED, $message);
+        $message = str_replace($escape."5", TextFormat::DARK_PURPLE, $message);
+        $message = str_replace($escape."6", TextFormat::GOLD, $message);
+        $message = str_replace($escape."7", TextFormat::GRAY, $message);
+        $message = str_replace($escape."8", TextFormat::DARK_GRAY, $message);
+        $message = str_replace($escape."9", TextFormat::BLUE, $message);
+        $message = str_replace($escape."a", TextFormat::GREEN, $message);
+        $message = str_replace($escape."b", TextFormat::AQUA, $message);
+        $message = str_replace($escape."c", TextFormat::RED, $message);
+        $message = str_replace($escape."d", TextFormat::LIGHT_PURPLE, $message);
+        $message = str_replace($escape."e", TextFormat::YELLOW, $message);
+        $message = str_replace($escape."f", TextFormat::WHITE, $message);
 
-    public function get($message){
-        return isset($this->messages[$message]) ? $this->messages[$message] : " ";
+        $message = str_replace($escape."k", TextFormat::OBFUSCATED, $message);
+        $message = str_replace($escape."l", TextFormat::BOLD, $message);
+        $message = str_replace($escape."m", TextFormat::STRIKETHROUGH, $message);
+        $message = str_replace($escape."n", TextFormat::UNDERLINE, $message);
+        $message = str_replace($escape."o", TextFormat::ITALIC, $message);
+        $message = str_replace($escape."r", TextFormat::RESET, $message);
+
+        return $message;
     }
 
     public function getTag(){
