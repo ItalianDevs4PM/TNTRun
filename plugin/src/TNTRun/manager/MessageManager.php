@@ -37,8 +37,7 @@ class MessageManager{
         foreach($args as $k => $str){
             $message = str_replace("%".$k, $str, $message);
         }
-        $message = $this->tag.$message;
-        return $this->translateColors($message);
+        return $this->translateColors($this->tag.$message);
     }
 
     public function translateColors($message, $escape = "&"){

@@ -114,12 +114,14 @@ class EventListener implements Listener{
 
     public function signCreate(SignChangeEvent $event){
         $line = $event->getLines();
-        $error = false;
+        $error = [];
         if(str_replace([" ", "[", "]", "/"], "", strtolower(trim($line[0]))) !== "tntrun"){
             return;
         }
-        if(!$event->getPlayer()->hasPermission("tntrun.create"))
+        if(!$event->getPlayer()->hasPermission("tntrun.create")){
+            $event->setCancelled();
             return;
+        }
         if(!is_numeric($line[2])){
             $error[] = "<Number_of_players> is not numeric";
         }else{
@@ -134,7 +136,7 @@ class EventListener implements Listener{
                 $error[] = "<Time> must be greater than 0";
         }
 
-        if(!$error){
+        if(count($error)){
             $this->tntRun->getSign()->newSign($event->getBlock(), ["arena" => trim($line[1]), "direction" => $event->getBlock()->getDamage(), "n_players" => $line[2], "time" => $line[3]]);
             $event->getPlayer()->sendMessage("[TNTRun] ".TextFormat::DARK_GREEN."The Sign was created successfully!");
         }else{
