@@ -62,6 +62,14 @@ class StructureManager{
         return $this->minPlayer;
     }
 
+    public function setMaxPlayers($maxPlayer){
+    $this->maxPlayer = $maxPlayer;
+}
+
+    public function setMinPlayers($minPlayer){
+        $this->minPlayer = $minPlayer;
+    }
+
     public function setSpawn($x, $y, $z){
         $this->spawn["x"] = $x;
         $this->spawn["y"] = $y;
