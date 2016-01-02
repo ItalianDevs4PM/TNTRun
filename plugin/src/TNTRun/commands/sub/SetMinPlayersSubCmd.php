@@ -14,13 +14,13 @@ class SetMinPlayersSubCmd extends SubCmd{
             $sender->sendMessage(TextFormat::YELLOW . "Please run this command in-game!");
             return true;
         }
-        if(!(isset($args[2]))){
+        if(!(isset($args[1]))){
             $sender->sendMessage(TextFormat::YELLOW . "Please specify a valid number!");
         }else{
-            if(is_numeric($args[2])){
+            if(is_numeric($args[1])){
                 foreach($this->getMain()->arenas as $arena) {
                     if($arena->getPlayerManager()->isInArena($sender)) {
-                        $arena->getStructureManager()->setMinPlayers($args[2]);
+                        $arena->getStructureManager()->setMinPlayers($args[1]);
                     }
                 }
             }
