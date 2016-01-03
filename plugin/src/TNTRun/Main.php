@@ -25,8 +25,29 @@ class Main extends PluginBase{
     private $playerData;
     /** @var MoneyManager */
     private $moneyManager;
-    /** @var  manager\MessageManager */
+    /** @var manager\MessageManager */
     private $messageManager;
+    /** @var string */
+    private $tag;
+    /** @var array  */
+    public $colors = [
+        "0" => TextFormat::BLACK,
+        "1" => TextFormat::DARK_BLUE,
+        "2" => TextFormat::DARK_GREEN,
+        "3" => TextFormat::DARK_AQUA,
+        "4" => TextFormat::DARK_RED,
+        "5" => TextFormat::DARK_PURPLE,
+        "6" => TextFormat::GOLD,
+        "7" => TextFormat::GRAY,
+        "8" => TextFormat::DARK_GRAY,
+        "9" => TextFormat::BLUE,
+        "a" => TextFormat::GREEN,
+        "b" => TextFormat::AQUA,
+        "c" => TextFormat::RED,
+        "d" => TextFormat::LIGHT_PURPLE,
+        "e" => TextFormat::YELLOW,
+        "f" => TextFormat::WHITE
+    ];
 
     public function onEnable(){
         if(!file_exists($this->getDataFolder()."/resources"))
@@ -46,11 +67,20 @@ class Main extends PluginBase{
                 $this->stats = new SQLiteStatsProvider($this);
                 break;
         }
+
+        $this->tag = $this->getConfig()->get("tag");
+        foreach($this->colors as $code => $c)
+            $this->tag = str_replace($this->getConfig()->get("code").$code, $c, $this->tag);
+
         $this->signHandler = new SignHandler($this);
         $this->playerData = new PlayerData($this);
         $this->moneyManager = new MoneyManager($this);
         $this->messageManager = new MessageManager($this);
         $this->loadArenas();
+    }
+
+    public function getTag(){
+        return $this->tag;
     }
 
     public function getMessageManager(){

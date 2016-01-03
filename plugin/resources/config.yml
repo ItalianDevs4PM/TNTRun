@@ -14,13 +14,18 @@ countdown: 20
 game-minutes: 5
 #true or false, teleport players at spawn when join
 alwaysspawn: true
+#You can format the tag plugin using colors
+#colors source: http://minecraft.gamepedia.com/Formatting_codes
+tag: "%f[%4TNT%cRun%f]"
+#A section sign
+code: "%"
 
 money-reward: 0
 #only for mysql users
 mysql:
   host: "127.0.0.1"
   username: "root"
-  password: "123abc"
-  database: "maindb"
+  password: ""
+  database: ""
   port: 3306
 ...
