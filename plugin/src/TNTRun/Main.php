@@ -29,6 +29,8 @@ class Main extends PluginBase{
     private $messageManager;
 
     public function onEnable(){
+        if(!file_exists($this->getDataFolder()."/resources"))
+            @mkdir($this->getDataFolder()."/resources", 0755, true);
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         $this->getLogger()->info(TextFormat::GREEN."TNTRun Enabled!");
         $this->saveDefaultConfig();
