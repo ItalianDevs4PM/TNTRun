@@ -22,7 +22,7 @@ class HelpSubCmd extends SubCmd{
                 return true;
             }
         }
-        $sender->sendMessage($this->getMain()->getTag().TextFormat::GREEN."---TNTRun About---");
+        $sender->sendMessage($this->getMain()->getTag().TextFormat::GREEN."---TNTRun---");
         foreach($this->getMain()->getCommands()->getSubCommands() as $cmd => $c){
             $sender->sendMessage($this->getMain()->getTag().TextFormat::AQUA."/tr ".$cmd. " = ".str_replace($this->getMain()->getTag(), "", $c->getInfo()));
         }

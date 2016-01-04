@@ -29,6 +29,9 @@ commands:
     error: "&cYou are not in arena!"
     left: "&aYou left the match. Teleporting to lobby..."
     info: "&bLeave the TNTRun Match."
+  list:
+    arenas: "&bThere are %COUNT arenas"
+    info: "&bList of arenas"
   lobby:
     error: "&cLobby level isn't loaded or doesn't exist!"
     teleport: "&aTeleported to lobby!"
