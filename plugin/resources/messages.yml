@@ -72,3 +72,5 @@ commands:
 
 errors:
   in-game: "&ePlease run this command in game!"
+  no-permission: "&eYou don't have permission to use this command!"
+  argument: "Invalid argument, run /tntrun help to view all commands"

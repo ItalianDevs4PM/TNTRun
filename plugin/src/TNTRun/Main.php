@@ -119,7 +119,6 @@ class Main extends PluginBase{
         return $this->tntRunCommand;
     }
 
-    /** @deprecated ?? */
     public function getSubCommands(){
         return $this->getFile()."src/". __NAMESPACE__."/commands/sub/";
     }

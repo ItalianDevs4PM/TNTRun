@@ -22,8 +22,8 @@ class StructureManager{
         sort($this->floors);
         $this->levelName = $data["levelName"];
         $this->spawn = $data["spawn"];
-        $this->minPlayer = $data["min_player"];
-        $this->maxPlayer = (isset($data["max_player"]) ? $data["max_player"] : $data["min_player"]);
+        $this->minPlayer = isset($data["min_player"]) ? $data["min_player"] : 0;
+        $this->maxPlayer = isset($data["max_player"]) ? $data["max_player"] : 1;
     }
     
     public function getPos1(){

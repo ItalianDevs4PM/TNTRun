@@ -14,7 +14,7 @@ class AddFloorSubCmd extends SubCmd{
             return true;
         }
         $this->getMain()->selection[strtolower($sender->getName())]["floors"][] = $sender->getFloorY();
-        $sender->sendMessage($this->getMessage("Floor created at ", ["POS" => $sender->getFloorY()]));
+        $sender->sendMessage($this->getMessage("commands.addfloor.created", ["POS" => $sender->getFloorY()]));
         return true;
     }
 
