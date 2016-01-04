@@ -4,7 +4,6 @@ namespace TNTRun\commands\sub;
 
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 use TNTRun\arena\Arena;
 use TNTRun\commands\SubCmd;
 
@@ -12,27 +11,27 @@ class CreateSubCmd extends SubCmd{
 
     public function execute(CommandSender $sender, array $args){
         if(!($sender instanceof Player)){
-            $sender->sendMessage(TextFormat::YELLOW . "Please run this command in game!");
+            $sender->sendMessage($this->getMessage("error.in-game"));
             return true;
         }
         if(!isset($this->getMain()->selection[strtolower($sender->getName())]["pos1"])){
-            $sender->sendMessage(TextFormat::RED . "Please specify pos 1 first");
+            $sender->sendMessage($this->getMessage("commands.create.error.pos1"));
             return true;
         }
         if(!isset($this->getMain()->selection[strtolower($sender->getName())]["pos2"])){
-            $sender->sendMessage(TextFormat::RED . "Please specify pos 2 first");
+            $sender->sendMessage($this->getMessage("commands.create.error.pos1"));
             return true;
         }
         if($this->getMain()->selection[strtolower($sender->getName())]["pos1"]["level"] !== $this->getMain()->selection[strtolower($sender->getName())]["pos2"]["level"]){
-            $sender->sendMessage(TextFormat::RED . "Positions are in different levels");
+            $sender->sendMessage($this->getMessage("commands.create.error.pos"));
             return true;
         }
         if(!isset($this->getMain()->selection[strtolower($sender->getName())]["floors"])){
-            $sender->sendMessage(TextFormat::RED . "Select floors first");
+            $sender->sendMessage($this->getMessage("commands.create.error.floor"));
             return true;
         }
         if(!isset($args[0])){
-            $sender->sendMessage(TextFormat::RED . "Please specify an arena name");
+            $sender->sendMessage($this->getMessage("commands.create.error.arena"));
             return true;
         }
         $this->getMain()->arenas[strtolower($args[0])] = new Arena($this->getMain(), [
@@ -49,9 +48,13 @@ class CreateSubCmd extends SubCmd{
             "levelName" => $this->getMain()->selection[strtolower($sender->getName())]["pos1"]["level"],
             "spawn" => ["x" => $sender->getFloorX(), "y" => $sender->getFloorY(), "z" => $sender->getFloorZ()]
         ]);
-        $sender->sendMessage(TextFormat::GREEN . "Arena created. Spawn pos set to current location");
+        $sender->sendMessage($this->getMessage("commands.create.error.arena"));
         unset($this->getMain()->selection[strtolower($sender->getName())]);
         return true;
+    }
+
+    public function getInfo(){
+        return $this->getMessage("commands.create.info");
     }
 
 }

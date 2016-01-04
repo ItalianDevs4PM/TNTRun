@@ -1,8 +1,71 @@
-#Language and messages file
-prefix: "[TntRun] "
-
 #Translations
 
 game: #category
   win: "Congratulations you won the match!"
-### TODO
+
+commands:
+  addfloor:
+    info: "&bAdds a TNTRun floor."
+    created: "&aFloor created at %POS"
+  create:
+    error:
+      pos1: "&cPlease specify pos2 first!"
+      pos2: "&cPlease specify pos2 first!"
+      pos: "&cPositions are in different levels!"
+      floor: "&cSelect floors first!"
+      arena: "&cPlease specify an arena name."
+    created: "&aArena created. Spawn pos set to current location."
+    info: "&bCreates an arena."
+  help:
+      info: "&bHelp command."
+  join:
+    error:
+      valid: "&ePlease specify a valid arena name!"
+      exists: "&cThe arena %ARENA does not exist"
+      finish: "&cPlease quit/finish this game first"
+      already: "&cYou are already playing in that arena"
+    info: "&bJoin a TNTRun Match."
+  leave:
+    error: "&cYou are not in arena!"
+    left: "&aYou left the match. Teleporting to lobby..."
+    info: "&bLeave the TNTRun Match."
+  lobby:
+    error: "&cLobby level isn't loaded or doesn't exist!"
+    teleport: "&aTeleported to lobby!"
+    info: "&bGo to Lobby."
+  pos1:
+    set: "&aPos 1 set to: %POS"
+    info: "&bSelects the first position."
+  pos2:
+    set: "&aPos 2 set to: %POS"
+    info: "&bSelects the second position."
+  reward:
+    error: "&cPlease specify a valid value of money!"
+    award: "&aThe award in money is now %AWARD"
+    info: "&bReward command."
+  setarenaspawn:
+    error: "&cYou are not in an arena!"
+    set: "&aArena's spawn set to %POS"
+    info: "&bSets an arena."
+  setmaxplayers:
+    error:
+      number: "&cPlease specify a valid number!"
+      arena: "&cYou are not in an arena!"
+    set: "&aYou set the maximum of %NUM players in this arena."
+    info: "&bSets Maximum number of Players that can join in a match."
+  setminplayers:
+    error:
+      number: "&cPlease specify a valid number!"
+      arena: "&cYou are not in an arena!"
+    set: "&aYou set the minimum of %NUM players in this arena."
+    info: "&bSets Minimum number of Players that can join in a match."
+  spectate:
+    error:
+      valid: "&cPlease specify a valid arena name!"
+      exists: "$cThe arena %ARENA does not exist!"
+      in-game: "&cYou can't spectate, you are in game!"
+      already: "&cYou are already in that arena!"
+    info: "&bSpectate to a TNTRun Match."
+
+errors:
+  in-game: "&ePlease run this command in game!"

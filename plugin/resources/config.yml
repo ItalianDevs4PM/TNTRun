@@ -16,9 +16,9 @@ game-minutes: 5
 alwaysspawn: true
 #You can format the tag plugin using colors
 #colors source: http://minecraft.gamepedia.com/Formatting_codes
-tag: "%f[%4TNT%cRun%f]"
+tag: "&f[&4TNT&cRun&f]"
 #A section sign
-code: "%"
+code: "&"
 
 money-reward: 0
 #only for mysql users

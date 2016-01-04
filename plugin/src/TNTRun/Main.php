@@ -13,7 +13,6 @@ use TNTRun\stats\MySQLStatsProvider;
 use TNTRun\stats\SQLiteStatsProvider;
 
 class Main extends PluginBase{
-
     /** @var stats\StatsProvider */
     private $stats;
     /** @var Arena[] */
@@ -29,6 +28,8 @@ class Main extends PluginBase{
     private $messageManager;
     /** @var string */
     private $tag;
+    /** @var TNTRunCommand */
+    private $tntRunCommand;
     /** @var array  */
     public $colors = [
         "0" => TextFormat::BLACK,
@@ -55,7 +56,8 @@ class Main extends PluginBase{
         $this->getServer()->getPluginManager()->registerEvents(new EventListener($this), $this);
         $this->getLogger()->info(TextFormat::GREEN."TNTRun Enabled!");
         $this->saveDefaultConfig();
-        $this->getServer()->getCommandMap()->register("tntrun", new TNTRunCommand($this));
+        $this->tntRunCommand = new TNTRunCommand($this);
+        $this->getServer()->getCommandMap()->register("tntrun", $this->tntRunCommand);
         switch(strtolower($this->getConfig()->get("stats-provider"))){
             case "sqlite3":
                 $this->stats = new SQLiteStatsProvider($this);
@@ -67,10 +69,10 @@ class Main extends PluginBase{
                 $this->stats = new SQLiteStatsProvider($this);
                 break;
         }
-
-        $this->tag = $this->getConfig()->get("tag");
+        $this->tag = trim($this->getConfig()->get("tag"));
         foreach($this->colors as $code => $c)
             $this->tag = str_replace($this->getConfig()->get("code").$code, $c, $this->tag);
+        $this->tag .= " ";
 
         $this->signHandler = new SignHandler($this);
         $this->playerData = new PlayerData($this);
@@ -113,6 +115,11 @@ class Main extends PluginBase{
         $this->saveArenas();
     }
 
+    public function getCommands(){
+        return $this->tntRunCommand;
+    }
+
+    /** @deprecated ?? */
     public function getSubCommands(){
         return $this->getFile()."src/". __NAMESPACE__."/commands/sub/";
     }

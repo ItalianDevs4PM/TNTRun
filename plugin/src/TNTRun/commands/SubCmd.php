@@ -15,6 +15,12 @@ abstract class SubCmd{
 
     public abstract function execute(CommandSender $sender, array $args);
 
+    public abstract function getInfo();
+
+    public function getMessage($key, $args = []){
+        return $this->getMain()->getMessageManager()->getMessage($key, $args);
+    }
+
     public function getMain(){
         return $this->tntRun;
     }

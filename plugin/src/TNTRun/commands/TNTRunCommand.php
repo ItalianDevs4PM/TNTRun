@@ -9,7 +9,6 @@ use pocketmine\utils\TextFormat;
 use TNTRun\Main;
 
 class TNTRunCommand extends Command implements PluginIdentifiableCommand{
-
     /** @var Main */
     public $tntRun;
     /** @var SubCmd[] */
@@ -33,7 +32,7 @@ class TNTRunCommand extends Command implements PluginIdentifiableCommand{
 
     public function execute(CommandSender $sender, $label, array $args){
         if(!isset($args[0])){
-            $args[0] = "info";
+            $args[0] = "help";
         }
         $sub = array_shift($args);
         if(isset($this->subCommands[strtolower($sub)])){
@@ -43,8 +42,12 @@ class TNTRunCommand extends Command implements PluginIdentifiableCommand{
             }
             return $this->subCommands[strtolower($sub)]->execute($sender, $args);
         }
-        $sender->sendMessage("Strange argument ".$sub.". Please use /tr info");
+        $sender->sendMessage("Strange argument ".$sub.". Please use /tr help");
         return true;
+    }
+
+    public function getSubCommands(){
+        return $this->subCommands;
     }
 
     /** @return Main */

@@ -4,40 +4,38 @@ namespace TNTRun\commands\sub;
 
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
-use pocketmine\utils\TextFormat;
 use TNTRun\commands\SubCmd;
 
 class SpectateSubCmd extends SubCmd{
 
     public function execute(CommandSender $sender, array $args){
         if(!($sender instanceof Player)){
-            $sender->sendMessage(TextFormat::YELLOW . "Please run this command in game!");
+            $sender->sendMessage($this->getMessage("error.in-game"));
             return true;
         }
         if(!isset($args[0])){
-            $sender->sendMessage(TextFormat::RED . "Please specify a valid arena name!");
+            $sender->sendMessage($this->getMessage("commands.spectate.valid"));
         }
 
         if(!isset($this->getMain()->arenas[strtolower($args[0])])){
-            $sender->sendMessage(TextFormat::RED . "The arena ".$args[0]." does not exist");
+            $sender->sendMessage($this->getMessage("commands.spectate.exists", ["ARENA" => $args[0]]));
             return true;
         }
-        $inGame = false;
         foreach($this->getMain()->arenas as $arena){
             if($arena->getPlayerManager()->isPlaying($sender)){
-                $inGame = true;
-                break;
+                $sender->sendMessage($this->getMessage("commands.spectate.in-game"));
+                return true;
             }
         }
-        if($inGame){
-            $sender->sendMessage(TextFormat::RED . "You can't spectate, you are in game!");
-            return true;
-        }
         if($this->getMain()->arenas[strtolower($args[0])]->getPlayerManager()->isInArena($sender)){
-            $sender->sendMessage(TextFormat::RED . "You are already in that arena");
+            $sender->sendMessage($this->getMessage("commands.spectate.already"));
             return true;
         }
         $this->getMain()->arenas[strtolower($args[0])]->getPlayerHandler()->spectatePlayer($sender);
         return true;
+    }
+
+    public function getInfo(){
+        return $this->getMessage("commands.spectate.info");
     }
 }

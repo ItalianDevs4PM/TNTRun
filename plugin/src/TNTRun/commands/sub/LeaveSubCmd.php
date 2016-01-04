@@ -2,7 +2,6 @@
 
 namespace TNTRun\commands\sub;
 
-use pocketmine\utils\TextFormat;
 use pocketmine\command\CommandSender;
 use pocketmine\Player;
 use TNTRun\commands\SubCmd;
@@ -11,19 +10,22 @@ class LeaveSubCmd extends SubCmd{
 
     public function execute(CommandSender $sender, array $args){
         if(!($sender instanceof Player)){
-            $sender->sendMessage(TextFormat::YELLOW . "Please use this command in game!");
+            $sender->sendMessage($this->getMessage("error.in-game"));
             return true;
         }
         foreach($this->getMain()->arenas as $arena){
             if($arena->getPlayerManager()->isInArena($sender)){
                 $arena->getPlayerHandler()->leavePlayer($sender);
                 $sender->teleport($this->getMain()->getLobby());
-                $sender->sendMessage(TextFormat::GREEN . "You left the match. Teleporting to lobby...");
+                $sender->sendMessage($this->getMessage("commands.leave.lefts"));
                 return true;
             }
         }
-        $sender->sendMessage(TextFormat::YELLOW . "You are not in arena!");
+        $sender->sendMessage($this->getMessage("commands.leave.error"));
         return true;
     }
 
+    public function getInfo(){
+        return $this->getMessage("commands.leave.info");
+    }
 }
