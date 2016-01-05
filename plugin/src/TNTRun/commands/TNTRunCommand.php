@@ -38,7 +38,6 @@ class TNTRunCommand extends Command implements PluginIdentifiableCommand{
         if(isset($this->subCommands[strtolower($sub)])){
             if(!$sender->hasPermission("tntrun.".strtolower($sub))){
                 $sender->sendMessage($this->tntRun->getMessageManager()->getMessage("error.no-permissions"));
-                $sender->sendMessage(TextFormat::RED . "You don't have permission to use this command!");
                 return true;
             }
             return $this->subCommands[strtolower($sub)]->execute($sender, $args);
